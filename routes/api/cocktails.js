@@ -8,22 +8,25 @@ import authenticate from "../../middleware/authenticate.js";
 const router = express.Router();
 
 // //GET -  cocktails
-router.get("/cocktails", authenticate, ctrl.getAllCocktails);
+router.get("/recipes", authenticate, ctrl.getAllCocktails);
 
-// //GET - cocktail by id
-router.get("/cocktails/:cocktailId", authenticate, isValidId, ctrl.getCocktailById);
+
 
 // //GET - categories
-router.get("/categories", authenticate, ctrl.getCategories);
+router.get("/recipes/category-list", authenticate, ctrl.getCategories);
 
-// //GET - ingredients
-router.get("/ingredients", authenticate, ctrl.getIngredients);
+// //GET - ingredients  
+router.get("/ingredients/list", authenticate, ctrl.getIngredients);
 
 // //GET - glasses
 router.get("/glasses", authenticate, ctrl.getGlasses);
 
 // //GET - top-categories
-router.get("/main-page", authenticate, ctrl.getTopCocktails);
+router.get("/recipes/main-page", authenticate, ctrl.getTopCocktails);
+
+// //GET - cocktail by id
+
+router.get("/recipes/:cocktailId", authenticate, isValidId, ctrl.getCocktailById);
 
 // // //POST - add
 // router.post("/", authenticate, validateBody(addSchema), ctrl.addCocktail);

@@ -29,13 +29,13 @@
 
 | Method | LINK | Description | Return |
 | :-- | :-- | --: | --: |
-| **GET** | [/cocktails](https://nodejs-restapi-g9eb.onrender.com/api/cocktails) | Path to get all cocktails | All cocktails |
+| **GET** | [/recipes](https://nodejs-restapi-g9eb.onrender.com/api/cocktails) | Path to get all cocktails | All cocktails |
 | **GET** | [/glasses](https://nodejs-restapi-g9eb.onrender.com/api/cocktails) | Path to get all glasses | All glasses |
-| **GET** | [/ingredients](https://nodejs-restapi-g9eb.onrender.com/api/ingredients) | Path to get all ingredients | All ingredients |
-| **GET** | [/categories](https://nodejs-restapi-g9eb.onrender.com/api/categories) | Path to get all categories | All categories |
-| **GET** | [/cocktails?page=1&limit=20](https://nodejs-restapi-g9eb.onrender.com/api/cocktails?page=1&limit=9) | Pagination | page and cocktails |
-| **GET** | [/cocktails/:id](https://nodejs-restapi-g9eb.onrender.com/api/contacts/:id) | Path to get contact by ID | Found Cocktail |
-| **GET** | [/main-page](https://nodejs-restapi-g9eb.onrender.com/api/top-cocktails) | Path to get top cocktails by categories | Top Cocktails |
+| **GET** | [/ingredients/list](https://nodejs-restapi-g9eb.onrender.com/api/ingredients) | Path to get all ingredients | All ingredients |
+| **GET** | [/recipes/category-list](https://nodejs-restapi-g9eb.onrender.com/api/categories) | Path to get all categories | All categories |
+| **GET** | [/recipes?page=1&limit=20](https://nodejs-restapi-g9eb.onrender.com/api/cocktails?page=1&limit=9) | Pagination | page and cocktails |
+| **GET** | [/recipes/:id](https://nodejs-restapi-g9eb.onrender.com/api/contacts/:id) | Path to get contact by ID | Found Cocktail |
+| **GET** | [/recipes/main-page](https://nodejs-restapi-g9eb.onrender.com/api/top-cocktails) | Path to get top cocktails by categories | Top Cocktails |
 | **DELETE** | [/cocktails/:id](https://nodejs-restapi-g9eb.onrender.com/api/cocktails/:id) | Path to delete cocktails by ID | Message |
 | **POST** | [/cocktails](https://nodejs-restapi-g9eb.onrender.com/api/cocktails) | Path to add cocktail to DB | New cocktail |
 
