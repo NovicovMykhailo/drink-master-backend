@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import Joi from "joi";
+// import Joi from "joi";
 import handleMongooseError from "../helpers/nandleMongoosError.js";
 const categoryList = [
   "Ordinary Drink",
@@ -43,13 +43,13 @@ const CocktailSchema = new Schema(
 );
 
 CocktailSchema.post("save", handleMongooseError);
-export const Cocktail = model("contact", CocktailSchema);
+export const Cocktail = model("cocktail", CocktailSchema);
 
-export const addSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
-  phone: Joi.string().required(),
-});
+// export const addSchema = Joi.object({
+//   name: Joi.string().required(),
+//   email: Joi.string().email().required(),
+//   phone: Joi.string().required(),
+// });
 
 // export const updateFavoriteSchema = Joi.object({
 //   favorite: Joi.boolean().required(),

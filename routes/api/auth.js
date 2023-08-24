@@ -3,8 +3,8 @@ import ctrl from "../../controllers/auth.js";
 import { authSchema} from "../../models/user.js";
 import validateBody from "../../middleware/validateBody.js";
 import authenticate from "../../middleware/authenticate.js";
-import upload from "../../middleware/upload.js";
-import resize from "../../middleware/resize.js";
+// import upload from "../../middleware/upload.js";
+// import resize from "../../middleware/resize.js";
 
 const router = express.Router();
 

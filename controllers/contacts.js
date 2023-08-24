@@ -1,82 +1,85 @@
 // import { HttpError } from "../helpers/HttpError.js";
-// import ctrlWrapper from "./ctrlWrapper.js";
-// import { Contact } from "../models/contact.js";
+import ctrlWrapper from "./ctrlWrapper.js";
+import { Cocktail } from "../models/cocktail.js";
 
-// // get all contacts
-// const getAll = async (req, res) => {
+// get all Cocktails
+const getAll = async (req, res) => {
 //   const { _id: owner } = req.user;
 //   if (req.query.hasOwnProperty("favorite")) {
     
 //     const { favorite } = req.query;
-//     const result = await Contact.find({ owner }, "-owner").where({ favorite });
+//     const result = await Cocktail.find({ owner }, "-owner").where({ favorite });
 //     res.status(200).json(result);
 //   } else {
-//     const { page = 1, limit = 10 } = req.query;
-//     const skip = (page - 1) * limit;
+    const { page = 1, limit = 9 } = req.query;
+    const skip = (page - 1) * limit;
 
-//     const result = await Contact.find({ owner }, null, { skip, limit });
-//     res.status(200).json(result);
+    const result = await Cocktail.find({}, null, { skip, limit });
+    res.status(200).json(result);
 //   }
-// };
+};
 
-// // //get contact by id
+
+// // ============
+
+// // //get Cocktail by id
 // const getById = async (req, res) => {
-//   const { contactId } = req.params;
-//   const contact = await Contact.findById(contactId);
+//   const { CocktailId } = req.params;
+//   const Cocktail = await Cocktail.findById(CocktailId);
 
-//   if (!contact) throw HttpError(404, "Not Found");
+//   if (!Cocktail) throw HttpError(404, "Not Found");
 
-//   res.status(200).json(contact);
+//   res.status(200).json(Cocktail);
 // };
 
-// //add contact
-// const AddContact = async (req, res) => {
+// //add Cocktail
+// const AddCocktail = async (req, res) => {
 //   const { _id: owner } = req.user;
 
-//   const addedContact = await Contact.create({ ...req.body, owner });
+//   const addedCocktail = await Cocktail.create({ ...req.body, owner });
 
-//   res.status(201).json(addedContact);
+//   res.status(201).json(addedCocktail);
 // };
 
-// //update contact id
-// const modifyContact = async (req, res) => {
-//   const { contactId } = req.params;
+// //update Cocktail id
+// const modifyCocktail = async (req, res) => {
+//   const { CocktailId } = req.params;
 
-//   const updatedContact = await Contact.findByIdAndUpdate(contactId, req.body, { new: true });
-//   if (!updatedContact) throw HttpError(404, "Not found");
+//   const updatedCocktail = await Cocktail.findByIdAndUpdate(CocktailId, req.body, { new: true });
+//   if (!updatedCocktail) throw HttpError(404, "Not found");
 
-//   res.status(200).json(updatedContact);
+//   res.status(200).json(updatedCocktail);
 // };
 
-// // update contact Status by id
-// const updateStatusContact = async (req, res) => {
-//   const { contactId } = req.params;
+// // update Cocktail Status by id
+// const updateStatusCocktail = async (req, res) => {
+//   const { CocktailId } = req.params;
 
-//   const updatedContact = await Contact.findByIdAndUpdate(contactId, req.body, { new: true });
-//   if (!updatedContact) throw HttpError(404, "Not found");
+//   const updatedCocktail = await Cocktail.findByIdAndUpdate(CocktailId, req.body, { new: true });
+//   if (!updatedCocktail) throw HttpError(404, "Not found");
 
-//   res.status(200).json(updatedContact);
+//   res.status(200).json(updatedCocktail);
 // };
 
-// //delete contact by id
-// const deleteContact = async (req, res) => {
-//   const { contactId } = req.params;
+// //delete Cocktail by id
+// const deleteCocktail = async (req, res) => {
+//   const { CocktailId } = req.params;
 
-//   const deletedContact = await Contact.findByIdAndRemove(contactId);
-//   if (!deletedContact) throw HttpError(404, "Not Found");
+//   const deletedCocktail = await Cocktail.findByIdAndRemove(CocktailId);
+//   if (!deletedCocktail) throw HttpError(404, "Not Found");
 
-//   res.status(200).json({ message: "contact deleted" });
+//   res.status(200).json({ message: "Cocktail deleted" });
 // };
 
-// //decotations of all methods
-// const ctrl = {
-//   getAll: ctrlWrapper(getAll),
+//decotations of all methods
+const ctrl = {
+  getAll: ctrlWrapper(getAll),
 //   getById: ctrlWrapper(getById),
-//   AddContact: ctrlWrapper(AddContact),
-//   modifyContact: ctrlWrapper(modifyContact),
-//   deleteContact: ctrlWrapper(deleteContact),
-//   updateStatusContact: ctrlWrapper(updateStatusContact),
-// };
+//   AddCocktail: ctrlWrapper(AddCocktail),
+//   modifyCocktail: ctrlWrapper(modifyCocktail),
+//   deleteCocktail: ctrlWrapper(deleteCocktail),
+//   updateStatusCocktail: ctrlWrapper(updateStatusCocktail),
+};
 
-// //export
-// export default ctrl;
+//export
+export default ctrl;
