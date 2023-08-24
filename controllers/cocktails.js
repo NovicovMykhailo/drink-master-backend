@@ -66,7 +66,7 @@ const ctrl = {
   getCocktailById: ctrlWrapper(getCocktailById),
   getCategories : ctrlWrapper(getCategories),
   getIngredients : ctrlWrapper(getIngredients),
-  getTopCocktail: ctrlWrapper(getTopCocktail),
+  getTopCocktail: ctrlWrapper(getTopCocktails),
 //   AddCocktail: ctrlWrapper(AddCocktail),
 //   deleteCocktail: ctrlWrapper(deleteCocktail),
 };
