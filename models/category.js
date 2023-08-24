@@ -2,9 +2,7 @@ import { Schema, model } from "mongoose";
 import handleMongooseError from "../helpers/nandleMongoosError.js";
 
 const CategorySchema = new Schema(
-  {
-    name: String,
-  },
+  { name: String, },
   { versionKey: false },
 );
 

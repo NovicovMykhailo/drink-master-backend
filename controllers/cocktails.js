@@ -1,19 +1,21 @@
 import { HttpError } from "../helpers/HttpError.js";
 import ctrlWrapper from "./ctrlWrapper.js";
 import { Cocktail } from "../models/cocktail.js";
-import { Category } from "../models/categorie.js"
-import { Ingredient } from "../models/Ingredient.js"
+import { Category } from "../models/category.js";
+import { Glass } from "../models/glass.js";
+import { Ingredient } from "../models/Ingredient.js";
+import { nanoid } from "nanoid";
 
 // get all Cocktails
 const getAllCocktails = async (req, res) => {
-    const { page = 1, limit = 9 } = req.query;
-    const skip = (page - 1) * limit;
-    const result = await Cocktail.find({}, null, { skip, limit });
-    res.status(200).json(result);
-//   }
+  const { page = 1, limit = 9 } = req.query;
+  const skip = (page - 1) * limit;
+  const result = await Cocktail.find({}, null, { skip, limit });
+  res.status(200).json(result);
+  //   }
 };
 
- //get Cocktail by id
+//get Cocktail by id
 const getCocktailById = async (req, res) => {
   const { cocktailId } = req.params;
   const result = await Cocktail.findById(cocktailId);
@@ -23,23 +25,39 @@ const getCocktailById = async (req, res) => {
 
 //get all categories
 const getCategories = async (req, res) => {
-      const result = await Category.find({});
-      res.status(200).json(result);
-  };
+  const result = await Category.find({}).sort({ name: "asc" });
+  res.status(200).json(result);
+};
 
 //get all ingredients
-const  getIngredients = async (req, res) => {
+const getIngredients = async (req, res) => {
   const result = await Ingredient.find({});
   res.status(200).json(result);
 };
-
-//get top-cocktails
-const  getTopCocktails = async (req, res) => {
-  // const result = await Ingredient.find({});
-  console.log(result)
+// get all glasses
+const getGlasses = async (req, res) => {
+  const result = await Glass.find({}).sort({ name: "asc" });
   res.status(200).json(result);
-
 };
+
+// // get top-cocktails
+const getTopCocktails = async (req, res) => {
+  const categories = await Category.find({}).sort({ name: "asc" });
+
+  const sortedCocktails = await Promise.all(
+    categories.map(async ({ name }) => {
+      const result = await Cocktail.find({ category: name }).limit(3);
+      const obj = {
+        category: name,
+        _id: nanoid(),
+        items: result
+      }
+      return obj;
+    })
+  );
+  res.status(200).json(sortedCocktails);
+};
+
 
 
 
@@ -49,8 +67,6 @@ const  getTopCocktails = async (req, res) => {
 //   const addedCocktail = await Cocktail.create({ ...req.body, owner });
 //   res.status(201).json(addedCocktail);
 // };
-
-
 
 // //delete Cocktail by id
 // const deleteCocktail = async (req, res) => {
@@ -64,11 +80,12 @@ const  getTopCocktails = async (req, res) => {
 const ctrl = {
   getAllCocktails: ctrlWrapper(getAllCocktails),
   getCocktailById: ctrlWrapper(getCocktailById),
-  getCategories : ctrlWrapper(getCategories),
-  getIngredients : ctrlWrapper(getIngredients),
-  getTopCocktail: ctrlWrapper(getTopCocktails),
-//   AddCocktail: ctrlWrapper(AddCocktail),
-//   deleteCocktail: ctrlWrapper(deleteCocktail),
+  getCategories: ctrlWrapper(getCategories),
+  getIngredients: ctrlWrapper(getIngredients),
+  getTopCocktails: ctrlWrapper(getTopCocktails),
+  getGlasses: ctrlWrapper(getGlasses),
+  //   AddCocktail: ctrlWrapper(AddCocktail),
+  //   deleteCocktail: ctrlWrapper(deleteCocktail),
 };
 
 //export

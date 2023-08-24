@@ -29,14 +29,16 @@
 
 | Method | LINK | Description | Return |
 | :-- | :-- | --: | --: |
-| **GET** | [/cocktails](https://nodejs-restapi-g9eb.onrender.com/api/cocktails) | Path to get all cocktails | All cocktails |
-| **GET** | [/ingredients](https://nodejs-restapi-g9eb.onrender.com/api/ingredients) | Path to get all ingredients | All ingredients |
-| **GET** | [/categories](https://nodejs-restapi-g9eb.onrender.com/api/categories) | Path to get all categories | All categories |
-| **GET** | [/cocktails?page=1&limit=20](https://nodejs-restapi-g9eb.onrender.com/api/cocktails?page=1&limit=9) | Pagination | page and cocktails |
-| **GET** | [/cocktails/:id](https://nodejs-restapi-g9eb.onrender.com/api/contacts/:id) | Path to get contact by ID | Found Cocktail |
-| **GET** | [/top-cocktails](https://nodejs-restapi-g9eb.onrender.com/api/top-cocktails) | Path to get top cocktails by categories | Top Cocktails |
-| **DELETE** | [/cocktails/:id](https://nodejs-restapi-g9eb.onrender.com/api/cocktails/:id) | Path to delete cocktails by ID | Message |
-| **POST** | [/cocktails](https://nodejs-restapi-g9eb.onrender.com/api/cocktails) | Path to add cocktail to DB | New cocktail |
+| **GET** | [/recipes](https://nodejs-restapi-g9eb.onrender.com/api/cocktails) | Path to get all cocktails | All cocktails |
+| **GET** | [/glasses](https://nodejs-restapi-g9eb.onrender.com/api/cocktails) | Path to get all glasses | All glasses |
+| **GET** | [/ingredients/list](https://nodejs-restapi-g9eb.onrender.com/api/ingredients) | Path to get all ingredients | All ingredients |
+| **GET** | [/recipes/category-list](https://nodejs-restapi-g9eb.onrender.com/api/categories) | Path to get all categories | All categories |
+| **GET** | [/recipes?page=1&limit=20](https://nodejs-restapi-g9eb.onrender.com/api/cocktails?page=1&limit=9) | Pagination | page and cocktails |
+| **GET** | [/recipes/:id](https://nodejs-restapi-g9eb.onrender.com/api/contacts/:id) | Path to get contact by ID | Found Cocktail |
+| **GET** | [/recipes/main-page](https://nodejs-restapi-g9eb.onrender.com/api/top-cocktails) | Path to get top cocktails by categories | Top Cocktails |
+|~~**DELETE**~~| [/cocktails/:id](https://nodejs-restapi-g9eb.onrender.com/api/cocktails/:id) | Path to delete cocktails by ID | Message |
+| ~~**POST**~~ | [/cocktails](https://nodejs-restapi-g9eb.onrender.com/api/cocktails) | Path to add cocktail to DB | New cocktail |
+
 <!-- 
 filters by: categories: All || one
 filters by: ingredients: null || one
@@ -53,10 +55,11 @@ filters by querry: null || filtered
 | **POST** | [/login](https://nodejs-restapi-g9eb.onrender.com/users/login) | Path to SignIn | user object + Token |
 | **POST** | [/logout](https://nodejs-restapi-g9eb.onrender.com/users/logout) | Path to logout | Status |
 | **GET**  | [/current](https://nodejs-restapi-g9eb.onrender.com/users/current) | Path to current User Info | User Info |
-| **PATCH** | [/update](https://nodejs-restapi-g9eb.onrender.com/users/update) | Path to update User info | Updated user info |
-| **GET** | [/favorites](https://nodejs-restapi-g9eb.onrender.com/users/favorites) | get favorite cocktail | all favorites | |
-| **POST** | [/favorites](https://nodejs-restapi-g9eb.onrender.com/users/favorites) | Path favorite cocktail | added  cocktail | |
-| **DELETE** | [/:id](https://nodejs-restapi-g9eb.onrender.com/users/favorite/:id) | Path to remove favorite cocktail | removed cocktail | |
+| ~~**PATCH**~~ | [/update](https://nodejs-restapi-g9eb.onrender.com/users/update) | Path to update User info | Updated user info |
+| ~~**GET**~~ | [/favorites](https://nodejs-restapi-g9eb.onrender.com/users/favorites) | get favorite cocktail | all favorites | |
+|~~**POST**~~ | [/favorites](https://nodejs-restapi-g9eb.onrender.com/users/favorites) | Path favorite cocktail | added  cocktail | |
+| ~~**DELETE**~~ | [/:id](https://nodejs-restapi-g9eb.onrender.com/users/favorite/:id) | Path to remove favorite cocktail | removed cocktail | |
+| ~~**POST?**~~ | [/subscribe](https://nodejs-restapi-g9eb.onrender.com/users/update) | Path to update User info | Updated user info |
 
 
 ## Cocktail Example 

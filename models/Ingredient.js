@@ -13,3 +13,5 @@ const IngredientSchema = new Schema(
 
 IngredientSchema.post("save", handleMongooseError);
 export const Ingredient = model("ingredient", IngredientSchema);
+
+
