@@ -4,7 +4,6 @@ import handleMongooseError from "../helpers/nandleMongoosError.js";
 
 const emailRegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-
 const userSchema = new Schema(
   {
     password: {
@@ -32,11 +31,17 @@ userSchema.post("save", handleMongooseError);
 
 export const User = model("user", userSchema);
 
+export const registerSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().pattern(emailRegExp).required(),
+  password: Joi.string().min(6).required(),
+});
+
 export const authSchema = Joi.object({
   email: Joi.string().pattern(emailRegExp).required(),
   password: Joi.string().min(6).required(),
 });
 
-export const subscriptionSchema = Joi.object({
-  subscription: Joi.string().valid(...subscriptionList),
-});
+// export const subscriptionSchema = Joi.object({
+//   subscription: Joi.string().valid(...subscriptionList),
+// });

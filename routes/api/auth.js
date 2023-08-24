@@ -1,6 +1,6 @@
 import express from "express";
 import ctrl from "../../controllers/auth.js";
-import { authSchema} from "../../models/user.js";
+import { registerSchema, authSchema} from "../../models/user.js";
 import validateBody from "../../middleware/validateBody.js";
 import authenticate from "../../middleware/authenticate.js";
 // import upload from "../../middleware/upload.js";
@@ -9,7 +9,7 @@ import authenticate from "../../middleware/authenticate.js";
 const router = express.Router();
 
 //signup
-router.post("/register", validateBody(authSchema), ctrl.register);
+router.post("/register", validateBody(registerSchema), ctrl.register);
 
 //signin
 router.post("/login", validateBody(authSchema), ctrl.login);
