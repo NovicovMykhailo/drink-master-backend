@@ -19,8 +19,11 @@ router.get("/categories", authenticate, ctrl.getCategories);
 // //GET - ingredients
 router.get("/ingredients", authenticate, ctrl.getIngredients);
 
+// //GET - glasses
+router.get("/glasses", authenticate, ctrl.getGlasses);
+
 // //GET - top-categories
-router.get("/ingredients", authenticate, ctrl.getIngredients);
+router.get("/main-page", authenticate, ctrl.getTopCocktails);
 
 // // //POST - add
 // router.post("/", authenticate, validateBody(addSchema), ctrl.addCocktail);
