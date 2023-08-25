@@ -5,7 +5,6 @@ import { Category } from "../models/category.js";
 import { Glass } from "../models/glass.js";
 import { Ingredient } from "../models/Ingredient.js";
 import { nanoid } from "nanoid";
-import { query } from "express";
 
 // get all Cocktails
 const getAllCocktails = async (req, res) => {
@@ -48,6 +47,7 @@ const getIngredients = async (req, res) => {
   const result = await Ingredient.find({});
   res.status(200).json(result);
 };
+
 // get all glasses
 const getGlasses = async (req, res) => {
   const result = await Glass.find({}).sort({ name: "asc" });
@@ -77,9 +77,8 @@ const getCocktailsByQuerry = async (req, res) => {
   const { q, category, ingredient, page = 1, limit = 9 } = req.query;
   const skip = (page - 1) * limit;
 
-
   const categories = await Cocktail.find({})
-    .find(q ? {$or : [{ drink: { $regex: q, $options: "i" } } , { category: { $regex: q, $options: "i" } }]}:{})
+    .find(q ? { $or: [{ drink: { $regex: q, $options: "i" } }, { category: { $regex: q, $options: "i" } }] } : {})
     .find(category ? { category: { $regex: category, $options: "i" } } : {})
     .find(ingredient ? { $or: [{ "ingredients.title": ingredient }] } : {})
     .skip(skip);
@@ -113,6 +112,42 @@ const getCocktailsByQuerry = async (req, res) => {
 //   res.status(200).json({ message: "Cocktail deleted" });
 // };
 
+//add to favs
+// const addToFavs = async (req, res) => {
+//   const { _id } = req.user;
+//   const { cocktailId } = req.body;
+//   if (cCocktailId) {
+//     throw HttpError(400, "cocktail id is reguired");
+//   }
+//   await Cocktail.findOneAndUpdate({ _id: req.body.cocktailId }, { $push: { favs: _id } });
+//   res.status(201).json({'message': "added to favs" })
+// };
+
+//remove from favs
+// const removeFromFavs = async (req, res) => {
+//   const { _id } = req.user;
+//   const { cocktailId } = req.body;
+//   if (!cocktailId) {
+//     throw HttpError(400, "cocktail id is reguired");
+//   }
+//   await Cocktail.findOneAndUpdate({ _id: req.body.id }, { $pull: { favs: _id } });
+//   res.status(200).json({'message': "removed from fav" })
+// };
+
+//get Favs by user
+// const getFavsByUser = async (req, res) => {
+//  const { _id } = req.user;
+//  const response = await Cocktail.find({favs: { $all : [_id]}}) // ??
+//
+//res.status(200).json(response)
+//}
+
+//get popular by Favs Cocktails
+// const getPopularRecipe = async (req, res) => {
+//   const result = await Cocktail.find({favs: { $size: 1 }}).sort({ favs: -1 }).limit(4);
+//   res.status(200).json(result);
+// };
+
 //decotations of all methods
 const ctrl = {
   getAllCocktails: ctrlWrapper(getAllCocktails),
@@ -122,6 +157,10 @@ const ctrl = {
   getTopCocktails: ctrlWrapper(getTopCocktails),
   getGlasses: ctrlWrapper(getGlasses),
   getCocktailsByQuerry: ctrlWrapper(getCocktailsByQuerry),
+    // addToFavs: ctrlWrapper(addToFavs),
+  //   removeFromFavs: ctrlWrapper(removeFromFavs),
+  //   getFavsByUser: ctrlWrapper(getFavsByUser),
+    // getPopularRecipe : ctrlWrapper(getPopularRecipe),
   //   AddCocktail: ctrlWrapper(AddCocktail),
   //   deleteCocktail: ctrlWrapper(deleteCocktail),
 };
