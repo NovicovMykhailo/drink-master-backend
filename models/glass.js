@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import handleMongooseError from "../helpers/nandleMongoosError.js";
+import handleMongooseError from "../helpers/handleMongoosError.js";
 
 const GlassSchema = new Schema(
   { name: String,},
