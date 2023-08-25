@@ -3,6 +3,11 @@ import sendEmail from "../helpers/sendEmail.js";
 import { HttpError } from "../helpers/HttpError.js";
 import { Subscribe } from "../models/subscribe.js";
 
+// const fs = require("fs");
+import fs from "node:fs";
+
+// Чтение содержимого HTML-файла
+
 const subscribe = async (req, res) => {
 	const { email } = req.body;
 
@@ -16,15 +21,17 @@ const subscribe = async (req, res) => {
 		...req.body,
 		subscribe: true,
 	});
+	const emailTemplate = fs.readFileSync("subscibeEmail.html", "utf8");
 
 	const subscribeEmail = {
 		to: email,
 		subject: "Subscribe email",
-		html: `<p>You are subscribed to our newsletter</p>`,
+		// html: `<p>You are subscribed to our newsletter</p>`,
+		html: emailTemplate,
 	};
 	await sendEmail(subscribeEmail);
 
-	res.json({
+	res.status(200).json({
 		message: "Subscribe email sent",
 	});
 };
