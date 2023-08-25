@@ -1,6 +1,6 @@
 import express from "express";
 import ctrl from "../../controllers/auth.js";
-import { registerSchema, authSchema} from "../../models/user.js";
+import { registerSchema, authSchema } from "../../models/user.js";
 import validateBody from "../../middleware/validateBody.js";
 import authenticate from "../../middleware/authenticate.js";
 // import upload from "../../middleware/upload.js";
@@ -25,5 +25,7 @@ router.post("/logout", authenticate, ctrl.logout);
 
 // update user
 // router.patch("/update", authenticate, upload.single("avatar"), resize, ctrl.updateAvatar);
+
+router.patch("/update/info", authenticate, ctrl.updateUserInfo);
 
 export default router;
