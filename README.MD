@@ -32,7 +32,7 @@
 | ~~**GET**~~ | [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite) | Path to get fav cocktails by user | Liked cocktails |
 |~~**DELETE**~~| [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite) | Path to remove cocktail from fav by ID (sent from FE) | Message |
 | ~~**GET**~~ | [/popular-recipe ](https://nodejs-restapi-g9eb.onrender.com/api/popular-recipe) | Path to get rated cocktail list by favs | Rated cocktails |
-| ~~**GET**~~ | [/search?q=''&category=''&ingredient=''&page=1&limit=9](https://nodejs-restapi-g9eb.onrender.com/api/search) | Path to search cocktails by category | found cocktails|
+| **GET** | [/search?q=''&category=''&ingredient=''&page=1&limit=9](https://nodejs-restapi-g9eb.onrender.com/api/search) | Path to search cocktails by category | found cocktails|
 
 
 
