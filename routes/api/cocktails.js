@@ -13,7 +13,7 @@ router.get("/recipes", authenticate, ctrl.getAllCocktails);
 // //GET - categories
 router.get("/recipes/category-list", authenticate, ctrl.getCategories);
 
-// //GET - ingredients  
+// //GET - ingredients
 router.get("/ingredients/list", authenticate, ctrl.getIngredients);
 
 // //GET - glasses
@@ -22,12 +22,8 @@ router.get("/glasses", authenticate, ctrl.getGlasses);
 // //GET - top-categories
 router.get("/recipes/main-page", authenticate, ctrl.getTopCocktails);
 
-
-
-
-
-
-
+// //GET - Search by URLsearchParams
+router.get("/search", authenticate, ctrl.getCocktailsByQuerry);
 
 // //GET - cocktail by id
 
