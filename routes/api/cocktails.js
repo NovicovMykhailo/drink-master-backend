@@ -10,8 +10,6 @@ const router = express.Router();
 // //GET -  cocktails
 router.get("/recipes", authenticate, ctrl.getAllCocktails);
 
-
-
 // //GET - categories
 router.get("/recipes/category-list", authenticate, ctrl.getCategories);
 
@@ -23,6 +21,13 @@ router.get("/glasses", authenticate, ctrl.getGlasses);
 
 // //GET - top-categories
 router.get("/recipes/main-page", authenticate, ctrl.getTopCocktails);
+
+
+
+
+
+
+
 
 // //GET - cocktail by id
 
