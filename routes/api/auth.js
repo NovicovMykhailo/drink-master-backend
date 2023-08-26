@@ -4,7 +4,7 @@ import { registerSchema, authSchema } from "../../models/user.js";
 import validateBody from "../../middleware/validateBody.js";
 import authenticate from "../../middleware/authenticate.js";
 import upload from "../../middleware/upload.js";
-import resize from "../../middleware/resize.js";
+// import resize from "../../middleware/resize.js";
 
 const router = express.Router();
 
@@ -24,8 +24,9 @@ router.post("/logout", authenticate, ctrl.logout);
 // router.patch("/", authenticate, validateBody(subscriptionSchema), ctrl.changeSubscription);
 
 // update user
-router.patch("/update", authenticate, upload.single("avatar"), resize, ctrl.updateAvatar);
+// router.patch("/update", authenticate, upload.single("avatar"), resize, ctrl.updateAvatar);
+router.post('/user', authenticate, upload.single('avatar'), ctrl.addAvatar);
 
-router.patch("/update/info", authenticate, ctrl.updateUserInfo);
+router.patch("/update", authenticate, ctrl.updateUserInfo);
 
 export default router;

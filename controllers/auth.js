@@ -86,39 +86,56 @@ const logout = async (req, res) => {
 //   res.status(200).json({ email, subscription });
 // };
 
-//Update User
-const updateUserInfo = async (req, res) => {
-  const { _id } = req.user;
-  const { name, email, password } = req.body;
-
-  const existingUser = await User.findOne({ name });
-  if (existingUser) {
-    return res.status(400).json({ message: 'Name is already taken' });
-  }
-  await User.findByIdAndUpdate(_id, { name, email, password }, { new: true });
-
-  res.status(200).json({ message: 'User info updated successfully' });
-};
-
-// Change Avatar
-const updateAvatar = async (req, res) => {
+// Add Avatar
+const addAvatar = async (req, res) => {
   const { _id } = req.user;
   const { path: originalname } = req.file;
-  const  {url: avatarURL }  = await cloudinary.uploader.upload(originalname, {
+  const { url: avatarURL } = await cloudinary.uploader.upload(originalname, {
     folder: 'avatars',
   });
-  
+
   await fs.unlink(originalname);
-  
+
   const result = await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
   res.status(201).json(result);
-  
-  // const filename = `${_id}_${originalname}`;
-  // await fs.rename(tempUpload, resultUpload);
-  // const avatarURL = path.join('avatars', filename);
-  //   await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
-  // res.status(200).json({ avatarURL });
 };
+
+// Update User
+const updateUserInfo = async (req, res) => {
+  const { _id } = req.user;
+  const { name, avatar } = req.body;
+  let updateFields = {};
+  if (name) {
+    updateFields.name = name;
+  }
+  if (avatar) {
+    const { path: originalname } = req.file;
+    const { url: avatarURL } = await cloudinary.uploader.upload(originalname, {
+      folder: 'avatars',
+    });
+
+    await fs.unlink(originalname);
+    updateFields.avatarURL = avatarURL;
+  }
+  if (Object.keys(updateFields).length === 0) {
+    return res.status(400).json({ message: 'No fields to update' });
+  }
+  const updatedUser = await User.findByIdAndUpdate(_id, updateFields, { new: true });
+  res.status(200).json({ message: 'User info updated successfully', user: updatedUser });
+};
+
+// const updateUserInfo = async (req, res) => {
+//   const { _id } = req.user;
+//   const { name } = req.body;
+
+//   const existingUser = await User.findOne({ name });
+//   if (existingUser) {
+//     return res.status(400).json({ message: 'Name is already taken' });
+//   }
+//   await User.findByIdAndUpdate(_id, { name }, { new: true });
+
+//   res.status(200).json({ message: 'User info updated successfully' });
+// };
 
 // decoration
 const ctrl = {
@@ -127,7 +144,7 @@ const ctrl = {
   logout: ctrlWrapper(logout),
   getCurrent: ctrlWrapper(getCurrent),
   updateUserInfo: ctrlWrapper(updateUserInfo),
-  updateAvatar: ctrlWrapper(updateAvatar),
+  addAvatar: ctrlWrapper(addAvatar),
 };
 
 //export
