@@ -103,12 +103,12 @@ const addAvatar = async (req, res) => {
 // Update User
 const updateUserInfo = async (req, res) => {
   const { _id } = req.user;
-  const { name, avatarURL} = req.body;
+  const { name, avatar} = req.body;
   let updateFields = {};
   if (name) {
     updateFields.name = name;
   }
-  if (avatarURL) {
+  if (avatar) {
     const { path: originalname } = req.file;
     const { url: avatarURL } = await cloudinary.uploader.upload(originalname, {
       folder: 'avatars',
