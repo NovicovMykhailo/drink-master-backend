@@ -25,14 +25,14 @@
 | **GET** | [/recipes?page=1&limit=9](https://nodejs-restapi-g9eb.onrender.com/api/cocktails?page=1&limit=9) | Pagination | Paginations|
 | **GET** | [/recipes/:id](https://nodejs-restapi-g9eb.onrender.com/api/contacts/:id) | Path to get contact by ID | Found Cocktail |
 | **GET** | [/recipes/main-page](https://nodejs-restapi-g9eb.onrender.com/api/top-cocktails) | Path to get top cocktails by categories | Top Cocktails |
-| ~~**POST**~~ | [/own](https://nodejs-restapi-g9eb.onrender.com/api/own  ) | Path to add cocktail to DB | New cocktail |
-| ~~**GET**~~ | [/own](https://nodejs-restapi-g9eb.onrender.com/api/own) | Path to get owned cocktails | Owned cocktails |
-|~~**DELETE**~~| [/own](https://nodejs-restapi-g9eb.onrender.com/api/own) | Path to delete cocktails by ID (sent from FE)| Message |
-| ~~**POST**~~ | [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite  ) | Path to adding to fav cocktail by ID (sent from FE) | Message |
-| ~~**GET**~~ | [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite) | Path to get fav cocktails by user | Liked cocktails |
-|~~**DELETE**~~| [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite) | Path to remove cocktail from fav by ID (sent from FE) | Message |
-| ~~**GET**~~ | [/popular-recipe ](https://nodejs-restapi-g9eb.onrender.com/api/popular-recipe) | Path to get rated cocktail list by favs | Rated cocktails |
+| **GET**| [/popular-recipe ](https://nodejs-restapi-g9eb.onrender.com/api/popular-recipe) | Path to get rated cocktail list by favs | Rated cocktails |
 | **GET** | [/search?q=''&category=''&ingredient=''&page=1&limit=9](https://nodejs-restapi-g9eb.onrender.com/api/search) | Path to search cocktails by category | found cocktails|
+| **GET**| [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite) | Path to get fav cocktails by user | Liked cocktails |
+| **POST**| [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite  ) | Path to adding to fav cocktail by ID (sent from FE) | Message |
+|**DELETE**| [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite) | Path to remove cocktail from fav by ID (sent from FE) | Message |
+| ~~**GET**~~ | [/own](https://nodejs-restapi-g9eb.onrender.com/api/own) | Path to get owned cocktails | Owned cocktails |
+| ~~**POST**~~ | [/own](https://nodejs-restapi-g9eb.onrender.com/api/own  ) | Path to add cocktail to DB | New cocktail |
+|~~**DELETE**~~| [/own](https://nodejs-restapi-g9eb.onrender.com/api/own) | Path to delete cocktails by ID (sent from FE)| Message |
 
 
 
@@ -47,7 +47,7 @@
 | **POST** | [/logout](https://nodejs-restapi-g9eb.onrender.com/users/logout) | Path to logout | Status |
 | **GET**  | [/current](https://nodejs-restapi-g9eb.onrender.com/users/current) | Path to current User Info | User Info |
 | ~~**PATCH**~~ | [/update](https://nodejs-restapi-g9eb.onrender.com/users/update) | Path to update User info | Updated user info |
-| ~~**POST**~~ | [/subscribe](https://nodejs-restapi-g9eb.onrender.com/users/subscribe) | Path to send Subscrition to email (sent from FE) | Message|
+| **POST**| [/subscribe](https://nodejs-restapi-g9eb.onrender.com/users/subscribe) | Path to send Subscrition to email (sent from FE) | Message|
 
 ## Cocktail Example 
 
