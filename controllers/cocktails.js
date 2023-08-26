@@ -13,17 +13,14 @@ const getAllCocktails = async (req, res) => {
   const result = await Cocktail.find({}, null, { skip, limit });
   const total = await Cocktail.countDocuments({});
 
-  const response = [
-    {
-      count: {
-        page: Number(page),
-        totalPages: Math.ceil(total / limit),
-        total: total,
-      },
-      data: result || [],
+  const response = {
+    count: {
+      page: Number(page),
+      totalPages: Math.ceil(total / limit),
+      total: total,
     },
-  ];
-  // const response = [{ page: Number(page), totalPages: Math.ceil(total / limit), total }, { items: result || [] }];
+    data: result || [],
+  };
 
   res.status(200).json(response);
 };
@@ -83,19 +80,68 @@ const getCocktailsByQuerry = async (req, res) => {
     .find(ingredient ? { $or: [{ "ingredients.title": ingredient }] } : {})
     .skip(skip);
 
-  const filteredCategories = [
-    {
-      count: {
-        page: Number(page),
-        totalPages: Math.ceil(categories.length / limit),
-        total: categories.length,
-      },
-      data: categories.slice(0, limit),
+  const filteredCategories = {
+    count: {
+      page: Number(page),
+      totalPages: Math.ceil(categories.length / limit),
+      total: categories.length,
     },
-  ];
-
+    data: categories.slice(0, limit),
+  };
   res.status(200).json(filteredCategories);
 };
+
+
+//add to favs
+const addToFavs = async (req, res) => {
+  const { _id } = req.user;
+  const { cocktailId } = req.body;
+
+  if (!cocktailId) {
+    throw HttpError(400, "cocktail id is reguired");
+  }
+
+  const { favs } = await Cocktail.findById(cocktailId);
+  if (favs.includes(_id)) throw HttpError(400, "cocktail is alrady in favorites");
+
+  await Cocktail.findByIdAndUpdate({ _id: cocktailId }, { $push: { favs: _id } });
+  res.status(201).json({ message: "added to favs" });
+
+};
+
+//remove from favs
+const removeFromFavs = async (req, res) => {
+  const { _id } = req.user;
+  const { cocktailId } = req.body;
+  if (!cocktailId) {
+    throw HttpError(400, "cocktail id is reguired");
+  }
+  const { favs } = await Cocktail.findById(cocktailId);
+  if (!favs.includes(_id)) throw HttpError(404, "cocktail is not in favorites yet");
+
+  await Cocktail.findByIdAndUpdate({ _id: cocktailId }, { $pull: { favs: _id } });
+  res.status(200).json({message: "removed from fav" })
+};
+
+//get Favs by user
+const getFavsByUser = async (req, res) => {
+  const { _id } = req.user;
+  const response = await Cocktail.find({
+    favs: { $all: [`${_id}`] },
+  });
+  res.status(200).json(response);
+};
+
+//get popular by Favs Cocktails
+const getPopularRecipe = async (req, res) => {
+  const result = await Cocktail.find({ favs: { $exists: true } })
+    .sort({ favs: 1 })
+    .limit(4);
+  res.status(200).json(result);
+};
+
+
+
 
 //add Cocktail
 // const AddCocktail = async (req, res) => {
@@ -112,42 +158,6 @@ const getCocktailsByQuerry = async (req, res) => {
 //   res.status(200).json({ message: "Cocktail deleted" });
 // };
 
-//add to favs
-// const addToFavs = async (req, res) => {
-//   const { _id } = req.user;
-//   const { cocktailId } = req.body;
-//   if (cCocktailId) {
-//     throw HttpError(400, "cocktail id is reguired");
-//   }
-//   await Cocktail.findOneAndUpdate({ _id: req.body.cocktailId }, { $push: { favs: _id } });
-//   res.status(201).json({'message': "added to favs" })
-// };
-
-//remove from favs
-// const removeFromFavs = async (req, res) => {
-//   const { _id } = req.user;
-//   const { cocktailId } = req.body;
-//   if (!cocktailId) {
-//     throw HttpError(400, "cocktail id is reguired");
-//   }
-//   await Cocktail.findOneAndUpdate({ _id: req.body.id }, { $pull: { favs: _id } });
-//   res.status(200).json({'message': "removed from fav" })
-// };
-
-//get Favs by user
-// const getFavsByUser = async (req, res) => {
-//  const { _id } = req.user;
-//  const response = await Cocktail.find({favs: { $all : [_id]}}) // ??
-//
-//res.status(200).json(response)
-//}
-
-//get popular by Favs Cocktails
-// const getPopularRecipe = async (req, res) => {
-//   const result = await Cocktail.find({favs: { $size: 1 }}).sort({ favs: -1 }).limit(4);
-//   res.status(200).json(result);
-// };
-
 //decotations of all methods
 const ctrl = {
   getAllCocktails: ctrlWrapper(getAllCocktails),
@@ -157,10 +167,11 @@ const ctrl = {
   getTopCocktails: ctrlWrapper(getTopCocktails),
   getGlasses: ctrlWrapper(getGlasses),
   getCocktailsByQuerry: ctrlWrapper(getCocktailsByQuerry),
-    // addToFavs: ctrlWrapper(addToFavs),
-  //   removeFromFavs: ctrlWrapper(removeFromFavs),
-  //   getFavsByUser: ctrlWrapper(getFavsByUser),
-    // getPopularRecipe : ctrlWrapper(getPopularRecipe),
+  getFavsByUser: ctrlWrapper(getFavsByUser),
+  getPopularRecipe: ctrlWrapper(getPopularRecipe),
+  addToFavs: ctrlWrapper(addToFavs),
+  removeFromFavs: ctrlWrapper(removeFromFavs),
+
   //   AddCocktail: ctrlWrapper(AddCocktail),
   //   deleteCocktail: ctrlWrapper(deleteCocktail),
 };
