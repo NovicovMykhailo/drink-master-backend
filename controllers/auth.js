@@ -103,12 +103,12 @@ const addAvatar = async (req, res) => {
 // Update User
 const updateUserInfo = async (req, res) => {
   const { _id } = req.user;
-  const { name, avatar } = req.body;
+  const { name, avatarURL} = req.body;
   let updateFields = {};
   if (name) {
     updateFields.name = name;
   }
-  if (avatar) {
+  if (avatarURL) {
     const { path: originalname } = req.file;
     const { url: avatarURL } = await cloudinary.uploader.upload(originalname, {
       folder: 'avatars',
@@ -123,19 +123,6 @@ const updateUserInfo = async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(_id, updateFields, { new: true });
   res.status(200).json({ message: 'User info updated successfully', user: updatedUser });
 };
-
-// const updateUserInfo = async (req, res) => {
-//   const { _id } = req.user;
-//   const { name } = req.body;
-
-//   const existingUser = await User.findOne({ name });
-//   if (existingUser) {
-//     return res.status(400).json({ message: 'Name is already taken' });
-//   }
-//   await User.findByIdAndUpdate(_id, { name }, { new: true });
-
-//   res.status(200).json({ message: 'User info updated successfully' });
-// };
 
 // decoration
 const ctrl = {
