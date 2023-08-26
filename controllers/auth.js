@@ -103,19 +103,19 @@ const addAvatar = async (req, res) => {
 // Update User
 const updateUserInfo = async (req, res) => {
   const { _id } = req.user;
-  const { name, avatar} = req.body;
+  const { name, avatarURL } = req.body;
   let updateFields = {};
   if (name) {
     updateFields.name = name;
   }
-  if (avatar) {
+  if (avatarURL) {
     const { path: originalname } = req.file;
-    const { url: avatarURL } = await cloudinary.uploader.upload(originalname, {
+    const { url: newAvatarURL } = await cloudinary.uploader.upload(originalname, {
       folder: 'avatars',
     });
 
     await fs.unlink(originalname);
-    updateFields.avatarURL = avatarURL;
+    updateFields.avatarURL = newAvatarURL;
   }
   if (Object.keys(updateFields).length === 0) {
     return res.status(400).json({ message: 'No fields to update' });
