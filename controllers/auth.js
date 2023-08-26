@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import gravatar from "gravatar";
 import path from "path";
 import jwt from "jsonwebtoken";
-import fs from "fs/promises";
 import { User } from "../models/user.js";
 import { HttpError } from "../helpers/HttpError.js";
 import ctrlWrapper from "./ctrlWrapper.js";
