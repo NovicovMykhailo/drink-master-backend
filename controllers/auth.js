@@ -1,13 +1,14 @@
 import bcrypt from 'bcryptjs';
 import gravatar from 'gravatar';
-import path from 'path';
+// import path from 'path';
 import jwt from 'jsonwebtoken';
 import fs from 'fs/promises';
 import { User } from '../models/user.js';
 import { HttpError } from '../helpers/HttpError.js';
+import cloudinary from '../helpers/cloudinary.js';
 import ctrlWrapper from './ctrlWrapper.js';
 
-const avatarDir = path.resolve('public', 'avatars');
+// const avatarDir = path.resolve('public', 'avatars');
 
 //signup
 const register = async (req, res) => {
@@ -99,20 +100,25 @@ const updateUserInfo = async (req, res) => {
   res.status(200).json({ message: 'User info updated successfully' });
 };
 
-//Change Avatar
-// const updateAvatar = async (req, res) => {
-//   const { _id } = req.user;
-//   const { path: tempUpload, originalname } = req.file;
-
-//   const filename = `${_id}_${originalname}`;
-//   const resultUpload = path.join(avatarDir, filename);
-//   await fs.rename(tempUpload, resultUpload);
-
-//   const avatarURL = path.join('avatars', filename);
-//   await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
-
-//   res.status(200).json({ avatarURL });
-// };
+// Change Avatar
+const updateAvatar = async (req, res) => {
+  const { _id } = req.user;
+  const { path: originalname } = req.file;
+  const  {url: avatarURL }  = await cloudinary.uploader.upload(originalname, {
+    folder: 'avatars',
+  });
+  
+  // await fs.unlink(originalname);
+  
+  const result = await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
+  res.status(201).json(result);
+  
+  // const filename = `${_id}_${originalname}`;
+  // await fs.rename(tempUpload, resultUpload);
+  // const avatarURL = path.join('avatars', filename);
+  //   await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
+  // res.status(200).json({ avatarURL });
+};
 
 // decoration
 const ctrl = {
@@ -121,7 +127,7 @@ const ctrl = {
   logout: ctrlWrapper(logout),
   getCurrent: ctrlWrapper(getCurrent),
   updateUserInfo: ctrlWrapper(updateUserInfo),
-  // updateAvatar: ctrlWrapper(updateAvatar),
+  updateAvatar: ctrlWrapper(updateAvatar),
 };
 
 //export
