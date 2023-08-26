@@ -1,25 +1,14 @@
 # GOIT Drink Master Back End Project
 
-### _-- Rest Api Drink Master Back end --_
+### _-- Rest Api to manage cocktails and guides to make them --_
 
 - **DEPLOYED @** &ensp; [![Deployed At | ](https://i.ibb.co/zG6DGXq/render-logo-818-C47-ACCA-seeklogo-com.png)](https://nodejs-restapi-g9eb.onrender.com/api/cocktails) &ensp; &ensp;
 
 - **SOURCE @**  &ensp; [![Repository |](https://i.ibb.co/j3TLp8G/github-logo-vector.png)](https://github.com/NovicovMykhailo/drink-master-backend) &ensp; &ensp; 
 
-### Contacts REST API connected to MongoDB
+### Cocktails REST API connected to MongoDB
 
 ![MongoDB Logo](https://i.ibb.co/Ht5xNDz/Mongo-db-logo-1.png)
-
-**this API allows you** :
-
-- View all cocktails
-- View all ingredients
-- View all categories
-- View top-cocktails
-- View cocktail by id
-- Add cocktail
-- Delete cocktail
-- Add cocktail to Favorites
 
 # Basic 
 
@@ -33,17 +22,19 @@
 | **GET** | [/glasses](https://nodejs-restapi-g9eb.onrender.com/api/cocktails) | Path to get all glasses | All glasses |
 | **GET** | [/ingredients/list](https://nodejs-restapi-g9eb.onrender.com/api/ingredients) | Path to get all ingredients | All ingredients |
 | **GET** | [/recipes/category-list](https://nodejs-restapi-g9eb.onrender.com/api/categories) | Path to get all categories | All categories |
-| **GET** | [/recipes?page=1&limit=20](https://nodejs-restapi-g9eb.onrender.com/api/cocktails?page=1&limit=9) | Pagination | page and cocktails |
+| **GET** | [/recipes?page=1&limit=9](https://nodejs-restapi-g9eb.onrender.com/api/cocktails?page=1&limit=9) | Pagination | Paginations|
 | **GET** | [/recipes/:id](https://nodejs-restapi-g9eb.onrender.com/api/contacts/:id) | Path to get contact by ID | Found Cocktail |
 | **GET** | [/recipes/main-page](https://nodejs-restapi-g9eb.onrender.com/api/top-cocktails) | Path to get top cocktails by categories | Top Cocktails |
-|~~**DELETE**~~| [/cocktails/:id](https://nodejs-restapi-g9eb.onrender.com/api/cocktails/:id) | Path to delete cocktails by ID | Message |
-| ~~**POST**~~ | [/cocktails](https://nodejs-restapi-g9eb.onrender.com/api/cocktails) | Path to add cocktail to DB | New cocktail |
+| ~~**POST**~~ | [/own](https://nodejs-restapi-g9eb.onrender.com/api/own  ) | Path to add cocktail to DB | New cocktail |
+| ~~**GET**~~ | [/own](https://nodejs-restapi-g9eb.onrender.com/api/own) | Path to get owned cocktails | Owned cocktails |
+|~~**DELETE**~~| [/own](https://nodejs-restapi-g9eb.onrender.com/api/own) | Path to delete cocktails by ID (sent from FE)| Message |
+| ~~**POST**~~ | [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite  ) | Path to adding to fav cocktail by ID (sent from FE) | Message |
+| ~~**GET**~~ | [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite) | Path to get fav cocktails by user | Liked cocktails |
+|~~**DELETE**~~| [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite) | Path to remove cocktail from fav by ID (sent from FE) | Message |
+| ~~**GET**~~ | [/popular-recipe ](https://nodejs-restapi-g9eb.onrender.com/api/popular-recipe) | Path to get rated cocktail list by favs | Rated cocktails |
+| **GET** | [/search?q=''&category=''&ingredient=''&page=1&limit=9](https://nodejs-restapi-g9eb.onrender.com/api/search) | Path to search cocktails by category | found cocktails|
 
-<!-- 
-filters by: categories: All || one
-filters by: ingredients: null || one
-filters by querry: null || filtered
- -->
+
 
 ### Authentication
 
@@ -51,16 +42,12 @@ filters by querry: null || filtered
 
 | Method | LINK | Description | Return |
 | :-- | :-- | --: | --: |
-| **POST** | [/register](https://nodejs-restapi-g9eb.onrender.com/users/register) | Path to registration | user object |
-| **POST** | [/login](https://nodejs-restapi-g9eb.onrender.com/users/login) | Path to SignIn | user object + Token |
+| **POST** | [/register](https://nodejs-restapi-g9eb.onrender.com/users/register) | Path to registration | User Info |
+| **POST** | [/login](https://nodejs-restapi-g9eb.onrender.com/users/login) | Path to SignIn | User Info + Token |
 | **POST** | [/logout](https://nodejs-restapi-g9eb.onrender.com/users/logout) | Path to logout | Status |
 | **GET**  | [/current](https://nodejs-restapi-g9eb.onrender.com/users/current) | Path to current User Info | User Info |
 | ~~**PATCH**~~ | [/update](https://nodejs-restapi-g9eb.onrender.com/users/update) | Path to update User info | Updated user info |
-| ~~**GET**~~ | [/favorites](https://nodejs-restapi-g9eb.onrender.com/users/favorites) | get favorite cocktail | all favorites | |
-|~~**POST**~~ | [/favorites](https://nodejs-restapi-g9eb.onrender.com/users/favorites) | Path favorite cocktail | added  cocktail | |
-| ~~**DELETE**~~ | [/:id](https://nodejs-restapi-g9eb.onrender.com/users/favorite/:id) | Path to remove favorite cocktail | removed cocktail | |
-| ~~**POST?**~~ | [/subscribe](https://nodejs-restapi-g9eb.onrender.com/users/update) | Path to update User info | Updated user info |
-
+| ~~**POST**~~ | [/subscribe](https://nodejs-restapi-g9eb.onrender.com/users/subscribe) | Path to send Subscrition to email (sent from FE) | Message|
 
 ## Cocktail Example 
 
@@ -72,29 +59,21 @@ filters by querry: null || filtered
     "drink": "Drink Name",
     "category": "Category Name",
     "alcoholic": "Alcoholic",
-    "glass": "Coffee mug",
+    "glass": "Glass Type",
     "instructions": "Lorem ENGLISH",
-    "instructionsRU": "Lorem Russian",
-    "instructionsUK": "Lorem Ukranian",
-    "drinkThumb": "Link 2 photo",
+    "drinkThumb": "Link to photo",
     "owner": "userId"
-
+    "favs":[ 
+        "user_1_Id",
+        "user_2_Id",
+        "user_3_Id",
+        "user_4_Id"
+      ],
     "ingredients": [
-      {
-        "title": "name",
-        "measure": "2 tsp",
-        "ingredientThumb": "Large Photo",
-        "thumb-medium": "Med Photo",
-        "thumb-small": "Small Photo"
-      },
-      {
-        "title": "name",
-        "measure": "Strong cold ",
-        "ingredientThumb": "Large Photo",
-        "thumb-medium": "Med Photo",
-        "thumb-small": "Small Photo"
-      }
-    ],
+        { "...ingredient #1" },
+        { "...ingredient #1" }
+      ],
+
     "drinkAlternate": null,
     "tags": null,
     "video": null,
@@ -107,6 +86,7 @@ filters by querry: null || filtered
 ## ingredient Example 
 ```js
   {
+    "_id" : "64e727691c746b5dded5e01d",
     "title": "Ingredient Name",
     "ingredientThumb": "large Image",
     "thumb-medium": "medium image",
@@ -115,13 +95,12 @@ filters by querry: null || filtered
 
 ```
 
-## category Example 
+## category, glasses Example 
 ```js
   {
     "_id" : "64e727691c746b5dded5e01d"
-    "name": "Ordinary Drink"
+    "name": "Name"
   },
 
 ```
-<!--USER:  Email; Password; avatar ; name-->
 
