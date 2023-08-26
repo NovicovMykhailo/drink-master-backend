@@ -27,6 +27,6 @@ router.post("/logout", authenticate, ctrl.logout);
 // router.patch("/update", authenticate, upload.single("avatar"), resize, ctrl.updateAvatar);
 router.post('/user', authenticate, upload.single('avatar'), ctrl.addAvatar);
 
-router.patch("/update", authenticate, ctrl.updateUserInfo);
+router.patch("/update", authenticate, upload.single('avatar'),  ctrl.updateUserInfo);
 
 export default router;
