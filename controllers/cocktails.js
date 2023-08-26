@@ -13,16 +13,14 @@ const getAllCocktails = async (req, res) => {
   const result = await Cocktail.find({}, null, { skip, limit });
   const total = await Cocktail.countDocuments({});
 
-  const response = [
-    {
-      count: {
-        page: Number(page),
-        totalPages: Math.ceil(total / limit),
-        total: total,
-      },
-      data: result || [],
+  const response = {
+    count: {
+      page: Number(page),
+      totalPages: Math.ceil(total / limit),
+      total: total,
     },
-  ];
+    data: result || [],
+  };
   // const response = [{ page: Number(page), totalPages: Math.ceil(total / limit), total }, { items: result || [] }];
 
   res.status(200).json(response);
@@ -83,17 +81,14 @@ const getCocktailsByQuerry = async (req, res) => {
     .find(ingredient ? { $or: [{ "ingredients.title": ingredient }] } : {})
     .skip(skip);
 
-  const filteredCategories = [
-    {
-      count: {
-        page: Number(page),
-        totalPages: Math.ceil(categories.length / limit),
-        total: categories.length,
-      },
-      data: categories.slice(0, limit),
+  const filteredCategories = {
+    count: {
+      page: Number(page),
+      totalPages: Math.ceil(categories.length / limit),
+      total: categories.length,
     },
-  ];
-
+    data: categories.slice(0, limit),
+  };
   res.status(200).json(filteredCategories);
 };
 
@@ -157,10 +152,10 @@ const ctrl = {
   getTopCocktails: ctrlWrapper(getTopCocktails),
   getGlasses: ctrlWrapper(getGlasses),
   getCocktailsByQuerry: ctrlWrapper(getCocktailsByQuerry),
-    // addToFavs: ctrlWrapper(addToFavs),
+  // addToFavs: ctrlWrapper(addToFavs),
   //   removeFromFavs: ctrlWrapper(removeFromFavs),
   //   getFavsByUser: ctrlWrapper(getFavsByUser),
-    // getPopularRecipe : ctrlWrapper(getPopularRecipe),
+  // getPopularRecipe : ctrlWrapper(getPopularRecipe),
   //   AddCocktail: ctrlWrapper(AddCocktail),
   //   deleteCocktail: ctrlWrapper(deleteCocktail),
 };
