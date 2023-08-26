@@ -108,7 +108,7 @@ const updateAvatar = async (req, res) => {
     folder: 'avatars',
   });
   
-  // await fs.unlink(originalname);
+  await fs.unlink(originalname);
   
   const result = await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
   res.status(201).json(result);
