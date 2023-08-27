@@ -22,23 +22,9 @@
 				"tags": ["users"],
 				"requestBody": {
 					"content": {
-						"multipart/form-data": {
+						"application/json": {
 							"schema": {
-								"type": "object",
-								"properties": {
-									"name": {
-										"type": "string"
-									},
-									"email": {
-										"type": "string",
-										"format": "email"
-									},
-									"password": {
-										"type": "string",
-										"minLength": 6
-									}
-								},
-								"required": ["name", "email", "password"]
+								"$ref": "#/components/schemas/RegistrationRequest"
 							}
 						}
 					},
@@ -61,7 +47,7 @@
 						}
 					},
 					"400": {
-						"description": "Validation error or missing required fields"
+						"description": "Bad request (invalid request body)"
 					},
 					"409": {
 						"description": "Conflict: Email in use"
@@ -100,8 +86,16 @@
 							}
 						}
 					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
 					"401": {
 						"description": "Unauthorized: Email or password is wrong"
+					},
+					"409": {
+						"description": "Email in use",
+						"content": {}
 					}
 				}
 			}
@@ -110,25 +104,33 @@
 			"get": {
 				"summary": "Get Current User",
 				"tags": ["users"],
-				"security": [
-					{
-						"Bearer": []
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Need only Auth token",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/securitySchemes"
+							}
+						}
 					}
-				],
+				},
 				"responses": {
-					"200": {
-						"description": "Successful retrieval of current user",
+					"201": {
+						"description": "Successful operation",
 						"content": {
 							"application/json": {
-								"example": {
-									"user": {
-										"id": "12345",
-										"email": "user@example.com",
-										"name": "John Doe"
-									}
+								"schema": {
+									"$ref": "#/components/schemas/currentResponse"
 								}
 							}
 						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
 					},
 					"401": {
 						"description": "Unauthorized: Not authorized"
@@ -140,11 +142,19 @@
 			"post": {
 				"summary": "User Logout",
 				"tags": ["users"],
-				"security": [
-					{
-						"Bearer": []
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Need only Auth token",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/securitySchemes"
+							}
+						}
 					}
-				],
+				},
 				"responses": {
 					"204": {
 						"description": "Successful user logout",
@@ -156,6 +166,42 @@
 							}
 						}
 					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					}
+				}
+			}
+		},
+		"/users/update": {
+			"patch": {
+				"tags": ["users"],
+				"summary": "Update user info",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Need only Auth token",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/securitySchemes"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+						"content": {}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					}
@@ -163,6 +209,7 @@
 			}
 		}
 	},
+
 	"components": {
 		"schemas": {
 			"RegistrationResponse": {
@@ -182,12 +229,17 @@
 			},
 			"RegistrationRequest": {
 				"type": "object",
-				"required": ["email", "password"],
+				"required": ["email", "name", "password"],
 				"properties": {
 					"email": {
 						"type": "string",
 						"description": "User's email",
 						"format": "email"
+					},
+					"name": {
+						"type": "string",
+						"description": "User's name",
+						"example": "Poly"
 					},
 					"password": {
 						"type": "string",
@@ -232,6 +284,66 @@
 							}
 						}
 					}
+				}
+			},
+			"currentResponse": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string",
+							"description": "unique identifier",
+							"example": "65165165165"
+						},
+						"email": {
+							"type": "email",
+							"description": "User's email",
+							"example": "mango@mail.com"
+						},
+						"name": {
+							"description": "User's name",
+							"example": "Mango",
+							"type": "string"
+						},
+						"avatarUrl": { "type": "string", "description": "avatar link" }
+					}
+				},
+				"example": {
+					"_id": "65165163513513",
+					"name": "ajax",
+					"email": "ajax@mail.com",
+					"avatarURL": "https://s.gravatar.com/avatar"
+				}
+			},
+			"updateReesponse": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string",
+							"description": "unique identifier",
+							"example": "65165165165"
+						},
+						"email": {
+							"type": "email",
+							"description": "User's email",
+							"example": "mango@mail.com"
+						},
+						"name": {
+							"description": "User's name",
+							"example": "Mango",
+							"type": "string"
+						},
+						"avatarUrl": { "type": "string", "description": "avatar link" }
+					}
+				},
+				"example": {
+					"_id": "65165163513513",
+					"name": "ajax",
+					"email": "ajax@mail.com",
+					"avatarURL": "https://s.gravatar.com/avatar"
 				}
 			}
 		},
