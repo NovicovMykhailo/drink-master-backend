@@ -75,13 +75,8 @@
 						"description": "Successful user login",
 						"content": {
 							"application/json": {
-								"example": {
-									"token": "<your_token_jwt>",
-									"user": {
-										"id": "12345",
-										"email": "user@example.com",
-										"name": "John Doe"
-									}
+								"schema": {
+									"$ref": "#/components/schemas/authenticationResponse"
 								}
 							}
 						}
@@ -183,10 +178,10 @@
 				"parameters": [],
 				"security": [{ "Bearer": [] }],
 				"requestBody": {
-					"description": "Need only Auth token",
+					"description": "Update user info",
 					"required": true,
 					"content": {
-						"application/json": {
+						"multipart/form-data": {
 							"schema": {
 								"$ref": "#/components/schemas/securitySchemes"
 							}
@@ -229,7 +224,7 @@
 			},
 			"RegistrationRequest": {
 				"type": "object",
-				"required": ["email", "name", "password"],
+				"required": ["email", "password", "name"],
 				"properties": {
 					"email": {
 						"type": "string",
@@ -246,6 +241,11 @@
 						"description": "User's password",
 						"example": "qwerty123"
 					}
+				},
+				"example": {
+					"email": "ajax@mail.com",
+					"name": "Poly",
+					"password": "123456789"
 				}
 			},
 
@@ -265,24 +265,35 @@
 				"required": ["email", "password"]
 			},
 			"authenticationResponse": {
-				"type": "object",
-				"properties": {
-					"token": {
-						"type": "string"
-					},
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string",
+							"description": "unique identifier",
+							"example": "65165165165"
+						},
+						"email": {
+							"type": "email",
+							"description": "User's email",
+							"example": "mango@mail.com"
+						},
+						"name": {
+							"description": "User's name",
+							"example": "Mango",
+							"type": "string"
+						},
+						"avatarUrl": { "type": "string", "description": "avatar link" }
+					}
+				},
+				"example": {
+					"token": "15115551",
 					"user": {
-						"type": "object",
-						"properties": {
-							"id": {
-								"type": "string"
-							},
-							"email": {
-								"type": "string"
-							},
-							"name": {
-								"type": "string"
-							}
-						}
+						"id": "000555000555dfdfd5f05df",
+						"email": "ajax@mail.com",
+						"name": "ajax",
+						"avatarURL": "https://s.gravatar.com/avatar/"
 					}
 				}
 			},
