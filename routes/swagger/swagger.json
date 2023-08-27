@@ -194,7 +194,13 @@
 				"responses": {
 					"200": {
 						"description": "Successful operation",
-						"content": {}
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/currentResponse"
+								}
+							}
+						}
 					},
 					"400": {
 						"description": "Bad request (invalid request body)",
@@ -335,14 +341,12 @@
 				"properties": {
 					"name": {
 						"type": "string",
-						"description": "User's name",
-						"example": "Mango"
+						"description": "User's name"
 					},
-					"avatarUrl": { "type": "string", "description": "avatar link" }
-				},
-				"example": {
-					"name": "ajax",
-					"avatarURL": "https://s.gravatar.com/avatar"
+					"avatarUrl": {
+						"type": "string",
+						"description": "Avatar link"
+					}
 				}
 			},
 			"updateReesponse": {
