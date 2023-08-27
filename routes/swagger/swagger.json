@@ -15,6 +15,16 @@
 	"consumes": ["application/json", "multipart/form-data"],
 	"produces": ["application/json"],
 	"servers": [{ "url": "http://localhost:3000" }],
+	"tags": [
+		{
+			"name": "users",
+			"description": "Authorization endpoints"
+		},
+		{
+			"name": "subscribe",
+			"description": "sending an email to subscribe"
+		}
+	],
 	"paths": {
 		"/users/register": {
 			"post": {
@@ -211,6 +221,53 @@
 					}
 				}
 			}
+		},
+		"/subscribe": {
+			"post": {
+				"tags": ["subscribe"],
+				"summary": "sending an email to subscribe",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Update user info",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"allOf": [
+									{ "$ref": "#/components/schemas/subscribeRequest" },
+									{ "$ref": "#/components/schemas/securitySchemes" }
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Subscribe email sent",
+						"content": {
+							"application/json": {
+								"schema": {
+									"example": {
+										"message": "Subscribe email sent"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"409": {
+						"description": "Already subscribed to this email",
+						"content": {}
+					}
+				}
+			}
 		}
 	},
 
@@ -270,6 +327,10 @@
 						"type": "string",
 						"description": "User's password"
 					}
+				},
+				"example": {
+					"email": "ajax@mail.com",
+					"password": "123456789"
 				},
 				"required": ["email", "password"]
 			},
@@ -379,8 +440,23 @@
 					"email": "ajax@mail.com",
 					"avatarURL": "https://s.gravatar.com/avatar"
 				}
+			},
+			"subscribeRequest": {
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string",
+						"description": "User's email",
+						"format": "email"
+					}
+				},
+				"example": {
+					"email": "ajax@mail.com"
+				},
+				"required": ["email"]
 			}
 		},
+
 		"securitySchemes": {
 			"Bearer": {
 				"type": "http",
