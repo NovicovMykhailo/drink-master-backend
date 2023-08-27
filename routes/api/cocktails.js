@@ -40,11 +40,13 @@ router.post("/favorite", authenticate, isValidCocktailId, ctrl.addToFavs);
 // // //DELETE - remove coctail from favorites
 router.delete("/favorite", authenticate, isValidCocktailId, ctrl.removeFromFavs); // needs to be validated before fetching
 
+// // //GET - all own recipies
+router.get("/own", authenticate, ctrl.getOwnRecipes);
 
-// // //POST - add
-// router.post("/", authenticate, validateBody(addSchema), ctrl.addCocktail);
+// // //POST - add own recipe
+// router.post("/own", authenticate, validateBody(addSchema), upload.single('recipeImg') ,ctrl.addOwnRecipe);
 
-// // //DELETE -  by id
-// router.delete("/:cocktailId", authenticate, isValidId, ctrl.deletecocktail);
+// // //DELETE -  own recipe
+// router.delete("/own", authenticate, isValidCocktailId,, ctrl.removeOwnRecipe);
 
 export default router;

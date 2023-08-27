@@ -1,17 +1,13 @@
 import bcrypt from "bcryptjs";
 import gravatar from "gravatar";
-import path from "path";
 import jwt from "jsonwebtoken";
-import fs from "fs/promises";
 import { User } from "../models/user.js";
 import { HttpError } from "../helpers/HttpError.js";
 import ctrlWrapper from "./ctrlWrapper.js";
 
-const avatarDir = path.resolve("public", "avatars");
-
 //signup
 const register = async (req, res) => {
-  const { email, password , name} = req.body;
+  const { email, password, name } = req.body;
   const user = await User.findOne({ email });
   if (user) {
     throw HttpError(409, "Email in use");
@@ -58,7 +54,7 @@ const login = async (req, res) => {
     user: {
       id: user._id,
       email: user.email,
-      name: user.name
+      name: user.name,
     },
   });
 };
@@ -66,43 +62,36 @@ const login = async (req, res) => {
 // current user info
 const getCurrent = async (req, res) => {
   const { email, name, avatarURL, _id } = req.user;
-  res.json({_id, name, email, avatarURL });
+  res.json({ _id, name, email, avatarURL });
 };
 
 //logout
 const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: "" });
-  res.status(204).json({"message" : "Logout sucsessfull"});
+  res.status(204).json({ message: "Logout sucsessfull" });
 };
 
+// Update User
+const updateUserInfo = async (req, res) => {
+  const { _id } = req.user;
+  const { name } = req.body;
 
+  let updateFields = {};
+  if (name) {
+    updateFields.name = name;
+  }
+  if (req.file) {
+    const avatarURL = req.file.path;
+    updateFields.avatarURL = avatarURL;
+  }
+  if (Object.keys(updateFields).length === 0) {
+    return res.status(400).json({ message: "No fields to update" });
+  }
+  const updatedUser = await User.findByIdAndUpdate(_id, updateFields, { new: true });
+  res.status(200).json({ name: updatedUser.name, avatarUrl: updatedUser.avatarURL });
 
-// // Change Subscription
-// const updateUserInfo = async (req, res) => {
-//   const { _id } = req.user;
-//   const updatedSubscription = await User.findByIdAndUpdate(_id, { subscription: req.body.subscription }, { new: true });
-//   if (!updatedSubscription) throw HttpError(404, "Not found");
-//   const { email, subscription } = updatedSubscription;
-//   res.status(200).json({ email, subscription });
-// };
-
-
-
-// //Change Avatar
-// const updateAvatar = async (req, res) => {
-//   const { _id } = req.user;
-//   const { path: tempUpload, originalname } = req.file;
-
-//   const filename = `${_id}_${originalname}`;
-//   const resultUpload = path.join(avatarDir, filename);
-//   await fs.rename(tempUpload, resultUpload);
-
-//   const avatarURL = path.join("avatars", filename);
-//   await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
-
-//   res.status(200).json({ avatarURL });
-// };
+};
 
 // decoration
 const ctrl = {
@@ -110,8 +99,7 @@ const ctrl = {
   login: ctrlWrapper(login),
   logout: ctrlWrapper(logout),
   getCurrent: ctrlWrapper(getCurrent),
-  // updateUserInfo: ctrlWrapper(updateUserInfo),
-  // updateAvatar: ctrlWrapper(updateAvatar),
+  updateUserInfo: ctrlWrapper(updateUserInfo),
 };
 
 //export

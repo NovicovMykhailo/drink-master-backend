@@ -6,7 +6,7 @@ import { Glass } from "../models/glass.js";
 import { Ingredient } from "../models/Ingredient.js";
 import { nanoid } from "nanoid";
 
-// get all Cocktails
+// get all Cocktails with pagination
 const getAllCocktails = async (req, res) => {
   const { page = 1, limit = 9 } = req.query;
   const skip = (page - 1) * limit;
@@ -69,7 +69,7 @@ const getTopCocktails = async (req, res) => {
   res.status(200).json(sortedCocktails);
 };
 
-// search by querry
+// search by querry with pagination
 const getCocktailsByQuerry = async (req, res) => {
   const { q, category, ingredient, page = 1, limit = 9 } = req.query;
   const skip = (page - 1) * limit;
@@ -91,7 +91,6 @@ const getCocktailsByQuerry = async (req, res) => {
   res.status(200).json(filteredCategories);
 };
 
-
 //add to favs
 const addToFavs = async (req, res) => {
   const { _id } = req.user;
@@ -106,7 +105,6 @@ const addToFavs = async (req, res) => {
 
   await Cocktail.findByIdAndUpdate({ _id: cocktailId }, { $push: { favs: _id } });
   res.status(201).json({ message: "added to favs" });
-
 };
 
 //remove from favs
@@ -120,19 +118,30 @@ const removeFromFavs = async (req, res) => {
   if (!favs.includes(_id)) throw HttpError(404, "cocktail is not in favorites yet");
 
   await Cocktail.findByIdAndUpdate({ _id: cocktailId }, { $pull: { favs: _id } });
-  res.status(200).json({message: "removed from fav" })
+  res.status(200).json({ message: "removed from fav" });
 };
 
-//get Favs by user
+//get Favs by user with pagination
 const getFavsByUser = async (req, res) => {
   const { _id } = req.user;
+  const { page = 1, limit = 9 } = req.query;
+  const skip = (page - 1) * limit;
   const response = await Cocktail.find({
     favs: { $all: [`${_id}`] },
-  });
-  res.status(200).json(response);
+  }).skip(skip);
+
+  const foundCocktails = {
+    count: {
+      page: Number(page),
+      totalPages: Math.ceil(response.length / limit),
+      total: response.length,
+    },
+    data: response.slice(0, limit),
+  };
+  res.status(200).json(foundCocktails);
 };
 
-//get popular by Favs Cocktails
+//get popular by Favs Length
 const getPopularRecipe = async (req, res) => {
   const result = await Cocktail.find({ favs: { $exists: true } })
     .sort({ favs: 1 })
@@ -140,21 +149,45 @@ const getPopularRecipe = async (req, res) => {
   res.status(200).json(result);
 };
 
+//get own recipies /// add pagination
+const getOwnRecipes = async (req, res) => {
+  const { page = 1, limit = 9 } = req.query;
+  const skip = (page - 1) * limit;
+  const result = await Cocktail.find({ owner: { $exists: true } }).skip(skip);
 
+  const ownedRecipes = {
+    count: {
+      page: Number(page),
+      totalPages: Math.ceil(result.length / limit),
+      total: result.length,
+    },
+    data: result.slice(0, limit),
+  };
 
+  res.status(200).json(ownedRecipes);
+};
 
-//add Cocktail
+//add addOwnRecipe
 // const AddCocktail = async (req, res) => {
 //   const { _id: owner } = req.user;
 //   const addedCocktail = await Cocktail.create({ ...req.body, owner });
 //   res.status(201).json(addedCocktail);
 // };
 
-// //delete Cocktail by id
+//delete removeOwnRecipe by id
 // const deleteCocktail = async (req, res) => {
 //   const { CocktailId } = req.params;
-//   const deletedCocktail = await Cocktail.findByIdAndRemove(CocktailId);
-//   if (!deletedCocktail) throw HttpError(404, "Not Found");
+//   const { _id } = req.user;
+//   const { owner } = await Cocktail.findById({ CocktailId });
+//   if (owner === _id) {
+//     await Cocktail.findByIdAndRemove(CocktailId);
+//   }
+//   if (owner !== _id) {
+//     throw HttpError(403, "This user cannot delete other owners' recipes");
+//   }
+//   if (!owner) {
+//     throw HttpError(404, "Not Found");
+//   }
 //   res.status(200).json({ message: "Cocktail deleted" });
 // };
 
@@ -171,9 +204,9 @@ const ctrl = {
   getPopularRecipe: ctrlWrapper(getPopularRecipe),
   addToFavs: ctrlWrapper(addToFavs),
   removeFromFavs: ctrlWrapper(removeFromFavs),
-
-  //   AddCocktail: ctrlWrapper(AddCocktail),
-  //   deleteCocktail: ctrlWrapper(deleteCocktail),
+  getOwnRecipes: ctrlWrapper(getOwnRecipes),
+  //   addOwnRecipe: ctrlWrapper(addOwnRecipe),
+  //   removeOwnRecipe: ctrlWrapper(removeOwnRecipe),
 };
 
 //export

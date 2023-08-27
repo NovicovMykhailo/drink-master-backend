@@ -30,7 +30,7 @@
 | **GET**| [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite) | Path to get fav cocktails by user | Liked cocktails |
 | **POST**| [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite  ) | Path to adding to fav cocktail by ID (sent from FE) | Message |
 |**DELETE**| [/favorite](https://nodejs-restapi-g9eb.onrender.com/api/favorite) | Path to remove cocktail from fav by ID (sent from FE) | Message |
-| ~~**GET**~~ | [/own](https://nodejs-restapi-g9eb.onrender.com/api/own) | Path to get owned cocktails | Owned cocktails |
+| **GET**| [/own](https://nodejs-restapi-g9eb.onrender.com/api/own) | Path to get owned cocktails | Owned cocktails |
 | ~~**POST**~~ | [/own](https://nodejs-restapi-g9eb.onrender.com/api/own  ) | Path to add cocktail to DB | New cocktail |
 |~~**DELETE**~~| [/own](https://nodejs-restapi-g9eb.onrender.com/api/own) | Path to delete cocktails by ID (sent from FE)| Message |
 
