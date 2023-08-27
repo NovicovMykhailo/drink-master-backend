@@ -197,7 +197,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/currentResponse"
+									"$ref": "#/components/schemas/updateResponse"
 								}
 							}
 						}
@@ -274,7 +274,7 @@
 				"required": ["email", "password"]
 			},
 			"authenticationResponse": {
-				"type": "array",
+				"type": "object",
 				"items": {
 					"type": "object",
 					"properties": {
@@ -307,7 +307,7 @@
 				}
 			},
 			"currentResponse": {
-				"type": "array",
+				"type": "object",
 				"items": {
 					"type": "object",
 					"properties": {
@@ -347,9 +347,10 @@
 						"type": "string",
 						"description": "Avatar link"
 					}
-				}
+				},
+				"required": []
 			},
-			"updateReesponse": {
+			"updateResponse": {
 				"type": "array",
 				"items": {
 					"type": "object",
