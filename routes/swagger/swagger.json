@@ -1,59 +1,163 @@
 {
 	"openapi": "3.0.1",
 	"info": {
-		"version": "2.0.2",
-		"title": "Swagger test",
-		"description": "Showing off swagger-ui-express",
+		"version": "1.0.0",
+		"title": "Drink Master",
+		"description": "Drink Master API",
+		"contact": {
+			"email": "drink-master-backend@ukr.net"
+		},
 		"license": {
 			"name": "MIT",
 			"url": "https://opensource.org/licenses/MIT"
 		}
 	},
-	"consumes": ["application/json"],
+	"consumes": ["application/json", "multipart/form-data"],
 	"produces": ["application/json"],
 	"servers": [{ "url": "http://localhost:3000" }],
-	"tags": [
-		{
-			"name": "Auth",
-			"description": "Authorization endpoints"
-		}
-	],
 	"paths": {
-		"/auth/register": {
+		"/users/register": {
 			"post": {
-				"tags": ["Auth"],
-				"summary": "User registration",
-				"parameters": [],
-				"security": [{ "Bearer": [] }],
+				"summary": "User Registration",
+				"tags": ["users"],
 				"requestBody": {
-					"description": "Registration's object",
-					"required": true,
 					"content": {
-						"application/json": {
+						"multipart/form-data": {
 							"schema": {
-								"$ref": "#/components/schemas/RegistrationRequest"
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string",
+										"format": "email"
+									},
+									"password": {
+										"type": "string",
+										"minLength": 6
+									}
+								},
+								"required": ["name", "email", "password"]
 							}
 						}
-					}
+					},
+					"description": "Request for user registration",
+					"required": true
 				},
 				"responses": {
 					"201": {
-						"description": "Successful operation",
+						"description": "Successful user registration",
 						"content": {
 							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/RegistrationResponse"
+								"example": {
+									"user": {
+										"email": "user@example.com",
+										"name": "John Doe",
+										"avatarURL": "https://example.com/avatar.png"
+									}
 								}
 							}
 						}
 					},
 					"400": {
-						"description": "Bad request (invalid request body)",
-						"content": {}
+						"description": "Validation error or missing required fields"
 					},
 					"409": {
-						"description": "Provided email already exists",
-						"content": {}
+						"description": "Conflict: Email in use"
+					}
+				}
+			}
+		},
+		"/users/login": {
+			"post": {
+				"summary": "User Login",
+				"tags": ["users"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/authenticationRequest"
+							}
+						}
+					},
+					"description": "Request for user login",
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "Successful user login",
+						"content": {
+							"application/json": {
+								"example": {
+									"token": "<your_token_jwt>",
+									"user": {
+										"id": "12345",
+										"email": "user@example.com",
+										"name": "John Doe"
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized: Email or password is wrong"
+					}
+				}
+			}
+		},
+		"/users/current": {
+			"get": {
+				"summary": "Get Current User",
+				"tags": ["users"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful retrieval of current user",
+						"content": {
+							"application/json": {
+								"example": {
+									"user": {
+										"id": "12345",
+										"email": "user@example.com",
+										"name": "John Doe"
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					}
+				}
+			}
+		},
+		"/users/logout": {
+			"post": {
+				"summary": "User Logout",
+				"tags": ["users"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "Successful user logout",
+						"content": {
+							"application/json": {
+								"example": {
+									"message": "Logout successful"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
 					}
 				}
 			}
@@ -61,6 +165,21 @@
 	},
 	"components": {
 		"schemas": {
+			"RegistrationResponse": {
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"name": {
+						"type": "string"
+					},
+					"avatarURL": {
+						"type": "string"
+					}
+				}
+			},
 			"RegistrationRequest": {
 				"type": "object",
 				"required": ["email", "password"],
@@ -77,27 +196,43 @@
 					}
 				}
 			},
-			"RegistrationResponse": {
-				"type": "array",
-				"items": {
-					"type": "object",
-					"properties": {
-						"email": {
-							"type": "string",
-							"description": "User's email",
-							"format": "email"
-						},
-						"userId": {
-							"type": "number",
-							"description": "User's id",
-							"example": "32143232436545474"
-						}
+
+			"authenticationRequest": {
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string",
+						"description": "User's email",
+						"format": "email"
+					},
+					"password": {
+						"type": "string",
+						"description": "User's password"
 					}
 				},
-				"example": [
-					{ "email": "1@gmail.com", "userId": "1" },
-					{ "email": "2@gmail.com", "userId": "2" }
-				]
+				"required": ["email", "password"]
+			},
+			"authenticationResponse": {
+				"type": "object",
+				"properties": {
+					"token": {
+						"type": "string"
+					},
+					"user": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"email": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							}
+						}
+					}
+				}
 			}
 		},
 		"securitySchemes": {
