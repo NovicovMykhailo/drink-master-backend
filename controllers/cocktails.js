@@ -168,28 +168,38 @@ const getOwnRecipes = async (req, res) => {
 };
 
 //add addOwnRecipe
-// const AddCocktail = async (req, res) => {
-//   const { _id: owner } = req.user;
-//   const addedCocktail = await Cocktail.create({ ...req.body, owner });
-//   res.status(201).json(addedCocktail);
-// };
+const addOwnRecipe = async (req, res) => {
+  const { _id: owner } = req.user;
+
+  if (req.file?.path) {
+    const drinkThumb = req.file.path;
+    const addedCocktail = await Cocktail.create({ ...req.body, owner, drinkThumb });
+    res.status(201).json(addedCocktail);
+  } else {
+    throw HttpError(400, "image is required in field /recipeImg/");
+  }
+};
 
 //delete removeOwnRecipe by id
-// const deleteCocktail = async (req, res) => {
-//   const { CocktailId } = req.params;
-//   const { _id } = req.user;
-//   const { owner } = await Cocktail.findById({ CocktailId });
-//   if (owner === _id) {
-//     await Cocktail.findByIdAndRemove(CocktailId);
-//   }
-//   if (owner !== _id) {
-//     throw HttpError(403, "This user cannot delete other owners' recipes");
-//   }
-//   if (!owner) {
-//     throw HttpError(404, "Not Found");
-//   }
-//   res.status(200).json({ message: "Cocktail deleted" });
-// };
+const removeOwnRecipe = async (req, res) => {
+  const { cocktailId } = req.body;
+  const { _id } = req.user;
+
+
+  const { owner } = await Cocktail.findById({ _id: cocktailId });
+  if (owner.toString() !== _id.toString()) {
+    throw HttpError(403, "This user cannot delete other owners' recipes");
+  }
+  if (!owner) {
+    throw HttpError(404, "Not Found");
+  }
+  if (owner.toString() === _id.toString()) {
+
+    const deletedResipe = await Cocktail.findByIdAndRemove({_id: cocktailId});
+    res.status(200).json([{ message: "Cocktail deleted" }, deletedResipe]);
+  }
+
+};
 
 //decotations of all methods
 const ctrl = {
@@ -205,8 +215,8 @@ const ctrl = {
   addToFavs: ctrlWrapper(addToFavs),
   removeFromFavs: ctrlWrapper(removeFromFavs),
   getOwnRecipes: ctrlWrapper(getOwnRecipes),
-  //   addOwnRecipe: ctrlWrapper(addOwnRecipe),
-  //   removeOwnRecipe: ctrlWrapper(removeOwnRecipe),
+  addOwnRecipe: ctrlWrapper(addOwnRecipe),
+  removeOwnRecipe: ctrlWrapper(removeOwnRecipe),
 };
 
 //export
