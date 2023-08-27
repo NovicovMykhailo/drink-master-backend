@@ -183,7 +183,10 @@
 					"content": {
 						"multipart/form-data": {
 							"schema": {
-								"$ref": "#/components/schemas/securitySchemes"
+								"allOf": [
+									{ "$ref": "#/components/schemas/securitySchemes" },
+									{ "$ref": "#/components/schemas/updateRequest" }
+								]
 							}
 						}
 					}
@@ -324,6 +327,21 @@
 					"_id": "65165163513513",
 					"name": "ajax",
 					"email": "ajax@mail.com",
+					"avatarURL": "https://s.gravatar.com/avatar"
+				}
+			},
+			"updateRequest": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "User's name",
+						"example": "Mango"
+					},
+					"avatarUrl": { "type": "string", "description": "avatar link" }
+				},
+				"example": {
+					"name": "ajax",
 					"avatarURL": "https://s.gravatar.com/avatar"
 				}
 			},
