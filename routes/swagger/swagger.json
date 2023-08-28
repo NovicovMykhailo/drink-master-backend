@@ -23,6 +23,10 @@
 		{
 			"name": "subscribe",
 			"description": "sending an email to subscribe"
+		},
+		{
+			"name": "api",
+			"description": "working with cocktails"
 		}
 	],
 	"paths": {
@@ -213,7 +217,7 @@
 						}
 					},
 					"400": {
-						"description": "Bad request (invalid request body)",
+						"description": "No fields to update",
 						"content": {}
 					},
 					"401": {
@@ -265,6 +269,43 @@
 					"409": {
 						"description": "Already subscribed to this email",
 						"content": {}
+					}
+				}
+			}
+		},
+		"/api/glasses": {
+			"get": {
+				"summary": "Get a list of glasses",
+				"tags": ["api"],
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved glasses",
+						"type": "array",
+						"content": {
+							"application/json": {
+								"example": [
+									{
+										"_id": "64e783491b6691092d9535d4",
+										"name": "Sample Glass 1"
+									},
+									{
+										"_id": "64e783491b6691092d95y666",
+										"name": "Sample Glass 2"
+									}
+								]
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"500": {
+						"description": "Internal Server Error"
 					}
 				}
 			}
@@ -454,6 +495,22 @@
 					"email": "ajax@mail.com"
 				},
 				"required": ["email"]
+			},
+			"getGlassesResponse": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"_id": {
+							"type": "string",
+							"example": "64e783491b6691092d9535d4"
+						},
+						"name": {
+							"type": "string",
+							"example": "Sample Glass 1"
+						}
+					}
+				}
 			}
 		},
 
