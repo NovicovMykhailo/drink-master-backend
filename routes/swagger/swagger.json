@@ -528,8 +528,72 @@
 							}
 						}
 					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
 					"401": {
-						"description": "Unauthorized"
+						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/recipes/category-list": {
+			"get": {
+				"summary": "Get a list of recipe categories",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved recipe categories",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"_id": {
+												"type": "string",
+												"description": "MongoDB ID",
+												"example": "64e7289f1b6691092d026395"
+											},
+											"name": {
+												"description": "category name",
+												"example": "Beer",
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
 					},
 					"500": {
 						"description": "Internal Server Error"
@@ -790,6 +854,22 @@
 					},
 					"drinkThumb": {
 						"type": "string"
+					}
+				}
+			},
+			"CategoryResponse": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"_id": {
+							"type": "string",
+							"example": "64e783491b6691092d9535d4"
+						},
+						"name": {
+							"type": "string",
+							"example": "Beer"
+						}
 					}
 				}
 			}
