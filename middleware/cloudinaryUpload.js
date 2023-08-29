@@ -1,6 +1,5 @@
 
-// router.patch('/user/update', authenticate, upload.single('avatar'), ctrl.updateUser);
-// router.post('/own', authenticate, upload.single('recipeImg'), ctrl.add Recipe);
+
 
 import { v2 as cloudinary } from 'cloudinary';
 import  { CloudinaryStorage } from 'multer-storage-cloudinary'
@@ -42,5 +41,3 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 
 export default upload
-
-;

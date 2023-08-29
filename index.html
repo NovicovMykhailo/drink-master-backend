@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        border-radius: 10px;
+        border-width: 1px;
+      }
+      input[number] {
+        width: 20px !important;
+      }
+      form {
+        width: 600px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      label {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+      input {
+        width: 400px;
+        padding: 10px;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: teal;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <form method="post" id="main">
+      <label>
+        Drink Name
+        <input type="text" name="drink" id="" />
+      </label>
+      <label>
+        Category
+        <input list="category" name="category" id="" />
+        <datalist id="category">
+          <option value="Ordinary Drink"></option>
+          <option value="Cocktail"></option>
+          <option value="Snake"></option>
+          <option value="Other/Unknow"></option>
+          <option value="Cocoa"></option>
+          <option value="Shot"></option>
+          <option value="Coffee/Tea"></option>
+          <option value="Other/Unknow"></option>
+          <option value="Homemade Liqueur"></option>
+          <option value="Punch / Party Drink"></option>
+          <option value="Beer"></option>
+          <option value="Soft Drink"></option>
+        </datalist>
+      </label>
+      <label>
+        Glass Type
+        <input list="glass" name="glass" id="" />
+        <datalist id="glass">
+          <option value="Highball glass"></option>
+          <option value="Cocktail glass"></option>
+          <option value="Old-fashioned"></option>
+          <option value="Whiskey Glass"></option>
+          <option value="Collins glass"></option>
+          <option value="Pousse cafe glass"></option>
+          <option value="Champagne flute"></option>
+          <option value="Whiskey sour glass"></option>
+          <option value="Cordial glass"></option>
+          <option value="Brandy snifter"></option>
+          <option value="White wine glass"></option>
+        </datalist>
+      </label>
+      <label>
+        Instructions
+        <input type="text" name="instructions" id="" />
+      </label>
+      <label>
+        <input type="hidden" name="ingredients"  />
+      </label>
+      <label>
+        Image
+        <input type="file" name="recipeImg" id="" />
+      </label>
+      <button type="submit">Send</button>
+    </form>
+    
+  </body>
+
+  <script type="text/javascript">
+    async function handleSubmit(event) {
+      event.preventDefault();
+      const data = new FormData(event.target);
+      data.set("ingredients", JSON.stringify([
+        {
+          "title": "Light rum",
+          "measure" : "1/4 ",
+          "ingredientThumb":
+            "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum.png",
+          "thumb-medium":
+            "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum-Medium.png",
+          "thumb-small":
+            "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum-Small.png",
+        },
+        {
+         "title": "Applejack",
+         "measure" : "1/3 ",
+          "ingredientThumb":
+            "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack.png",
+          "thumb-medium":
+            "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Medium.png",
+          "thumb-small":
+            "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Small.png",
+        },]
+      ));
+ 
+      const response = await fetch("http://localhost:3000/api/own", {
+        method: "POST",
+        headers: {
+          "Access-Control-Request-Headers": "Authorization",
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTc0MTBjNGJhYmJiM2JlM2JjZDRiOSIsImlhdCI6MTY5MzA1MDU5OCwiZXhwIjoxNzI0NTg2NTk4fQ.EruneUfQbTsZkYOgBC4h3vLtqzylMjwDzVmkBiyAZG4`,
+        },
+        body: data,
+      })
+      const res = await response.json()
+
+      console.log(res);
+    }
+    const form = document.querySelector("#main");
+    form.addEventListener("submit", handleSubmit);
+  </script>
+</html>
