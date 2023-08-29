@@ -115,17 +115,7 @@
 				"tags": ["users"],
 				"parameters": [],
 				"security": [{ "Bearer": [] }],
-				"requestBody": {
-					"description": "Need only Auth token",
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/securitySchemes"
-							}
-						}
-					}
-				},
+
 				"responses": {
 					"201": {
 						"description": "Successful operation",
@@ -275,13 +265,11 @@
 		},
 		"/api/glasses": {
 			"get": {
+				"parameters": [],
 				"summary": "Get a list of glasses",
 				"tags": ["api"],
-				"security": [
-					{
-						"BearerAuth": []
-					}
-				],
+				"security": [{ "Bearer": [] }],
+
 				"responses": {
 					"200": {
 						"description": "Successfully retrieved glasses",
