@@ -297,6 +297,38 @@
 					}
 				}
 			}
+		},
+		"/api/ingredients/list": {
+			"get": {
+				"summary": "Get a list of ingredients",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved ingredients",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/IngredientResponse"
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
 		}
 	},
 
@@ -497,6 +529,31 @@
 							"type": "string",
 							"example": "Sample Glass 1"
 						}
+					}
+				}
+			},
+			"IngredientResponse": {
+				"type": "object",
+				"properties": {
+					"_id": {
+						"type": "string",
+						"example": "64e783491b6691092d9535d4"
+					},
+					"title": {
+						"type": "string",
+						"example": "Bitters"
+					},
+					"ingredientThumb": {
+						"type": "string",
+						"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Bitters.png"
+					},
+					"thumb-medium": {
+						"type": "string",
+						"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Bitters-Medium.png"
+					},
+					"thumb-small": {
+						"type": "string",
+						"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Bitters-Small.png"
 					}
 				}
 			}
