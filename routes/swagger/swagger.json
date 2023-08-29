@@ -63,8 +63,14 @@
 					"400": {
 						"description": "Bad request (invalid request body)"
 					},
+					"403": {
+						"description": "Forbidden"
+					},
 					"409": {
 						"description": "Conflict: Email in use"
+					},
+					"500": {
+						"description": "Internal Server Error"
 					}
 				}
 			}
@@ -102,9 +108,15 @@
 					"401": {
 						"description": "Unauthorized: Email or password is wrong"
 					},
+					"403": {
+						"description": "Forbidden"
+					},
 					"409": {
 						"description": "Email in use",
 						"content": {}
+					},
+					"500": {
+						"description": "Internal Server Error"
 					}
 				}
 			}
@@ -133,6 +145,15 @@
 					},
 					"401": {
 						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					},
+					"500": {
+						"description": "Internal Server Error"
 					}
 				}
 			}
@@ -171,6 +192,15 @@
 					},
 					"401": {
 						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					},
+					"500": {
+						"description": "Internal Server Error"
 					}
 				}
 			}
@@ -212,6 +242,15 @@
 					},
 					"401": {
 						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					},
+					"500": {
+						"description": "Internal Server Error"
 					}
 				}
 			}
@@ -256,9 +295,15 @@
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
+					"403": {
+						"description": "Forbidden"
+					},
 					"409": {
 						"description": "Already subscribed to this email",
 						"content": {}
+					},
+					"500": {
+						"description": "Internal Server Error"
 					}
 				}
 			}
@@ -289,8 +334,18 @@
 							}
 						}
 					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
 					"401": {
 						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
 					},
 					"500": {
 						"description": "Internal Server Error"
@@ -321,8 +376,60 @@
 							}
 						}
 					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
 					"401": {
 						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/popular-recipe": {
+			"get": {
+				"summary": "Get a list of popular recipes",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved popular recipes",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/getPopularRecipeResponse"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
 					},
 					"500": {
 						"description": "Internal Server Error"
@@ -554,6 +661,35 @@
 					"thumb-small": {
 						"type": "string",
 						"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Bitters-Small.png"
+					}
+				}
+			},
+			"getPopularRecipeResponse": {
+				"type": "object",
+				"properties": {
+					"drink": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"glass": {
+						"type": "string"
+					},
+					"instructions": {
+						"type": "string"
+					},
+					"ingredients": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"favs": {
+						"type": "array"
+					},
+					"drinkThumb": {
+						"type": "string"
 					}
 				}
 			}
