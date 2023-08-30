@@ -766,6 +766,139 @@
 					}
 				}
 			}
+		},
+		"/api/recipes": {
+			"get": {
+				"summary": "Get all cocktails",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Page number",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"description": "Number of items per page",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 9
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved cocktails",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"count": {
+											"type": "object",
+											"properties": {
+												"page": {
+													"type": "integer"
+												},
+												"totalPages": {
+													"type": "integer"
+												},
+												"total": {
+													"type": "integer"
+												}
+											}
+										},
+										"data": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/Cocktail"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Cocktail not found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/recipes/{cocktailId}": {
+			"get": {
+				"summary": "Get a cocktail by ID",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "cocktailId",
+						"in": "path",
+						"description": "ID of the cocktail",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved cocktail by ID",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Cocktail"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Cocktail not found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
 		}
 	},
 
@@ -1039,7 +1172,7 @@
 					}
 				}
 			},
-			"recipesMainPageResponse": {
+			"Cocktail": {
 				"type": "array",
 				"items": {
 					"type": "object",
