@@ -80,11 +80,17 @@ const getCocktailsByQuerry = async (req, res) => {
     .find(ingredient ? { $or: [{ "ingredients.title": ingredient }] } : {})
     .skip(skip);
 
+  const getLength = await Cocktail.find({})
+    .find(q ? { $or: [{ drink: { $regex: q, $options: "i" } }, { category: { $regex: q, $options: "i" } }] } : {})
+    .find(category ? { category: { $regex: category, $options: "i" } } : {})
+    .find(ingredient ? { $or: [{ "ingredients.title": ingredient }] } : {})
+    .countDocuments();
+
   const filteredCategories = {
     count: {
       page: Number(page),
-      totalPages: Math.ceil(categories.length / limit),
-      total: categories.length,
+      totalPages: Math.ceil(getLength / limit),
+      total: getLength,
     },
     data: categories.slice(0, limit),
   };
@@ -126,15 +132,17 @@ const getFavsByUser = async (req, res) => {
   const { _id } = req.user;
   const { page = 1, limit = 9 } = req.query;
   const skip = (page - 1) * limit;
+
+  const length = await Cocktail.countDocuments({ favs: _id });
   const response = await Cocktail.find({
-    favs: { $all: [`${_id}`] },
+    favs: _id,
   }).skip(skip);
 
   const foundCocktails = {
     count: {
       page: Number(page),
-      totalPages: Math.ceil(response.length / limit),
-      total: response.length,
+      totalPages: Math.ceil(length / limit),
+      total: length,
     },
     data: response.slice(0, limit),
   };
@@ -152,14 +160,17 @@ const getPopularRecipe = async (req, res) => {
 //get own recipies /// add pagination
 const getOwnRecipes = async (req, res) => {
   const { page = 1, limit = 9 } = req.query;
+  const { _id } = req.user;
   const skip = (page - 1) * limit;
-  const result = await Cocktail.find({ owner: { $exists: true } }).skip(skip);
+
+  const length = await Cocktail.countDocuments({ owner: _id });
+  const result = await Cocktail.find({ owner: _id }).skip(skip);
 
   const ownedRecipes = {
     count: {
       page: Number(page),
-      totalPages: Math.ceil(result.length / limit),
-      total: result.length,
+      totalPages: Math.ceil(length / limit),
+      total: length,
     },
     data: result.slice(0, limit),
   };
@@ -176,7 +187,7 @@ const addOwnRecipe = async (req, res) => {
     const addedCocktail = await Cocktail.create({ ...req.body, owner, drinkThumb });
     res.status(201).json(addedCocktail);
   } else {
-    throw HttpError(400, "image is required in field /recipeImg/");
+    throw HttpError(400, "image is required in field recipeImg");
   }
 };
 
@@ -184,7 +195,6 @@ const addOwnRecipe = async (req, res) => {
 const removeOwnRecipe = async (req, res) => {
   const { cocktailId } = req.body;
   const { _id } = req.user;
-
 
   const { owner } = await Cocktail.findById({ _id: cocktailId });
   if (owner.toString() !== _id.toString()) {
@@ -194,14 +204,12 @@ const removeOwnRecipe = async (req, res) => {
     throw HttpError(404, "Not Found");
   }
   if (owner.toString() === _id.toString()) {
-
-    const deletedResipe = await Cocktail.findByIdAndRemove({_id: cocktailId});
+    const deletedResipe = await Cocktail.findByIdAndRemove({ _id: cocktailId });
     res.status(200).json([{ message: "Cocktail deleted" }, deletedResipe]);
   }
-
 };
 
-//decotations of all methods
+//decorations of all methods
 const ctrl = {
   getAllCocktails: ctrlWrapper(getAllCocktails),
   getCocktailById: ctrlWrapper(getCocktailById),

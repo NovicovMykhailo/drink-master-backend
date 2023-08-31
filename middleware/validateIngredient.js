@@ -24,7 +24,7 @@ const validateIngredient = async (req, res, next) => {
         next(HttpError(400, `${item.title} is not valid thumb-small`));
       }
       if (!validMeasures) {
-        next(HttpError(400, `Missing measurement in ${item.title}, resipe`));
+        next(HttpError(400, `Missing measure in ${item.title}, resipe`));
       }
     }),
   );
