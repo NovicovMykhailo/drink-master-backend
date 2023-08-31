@@ -899,6 +899,182 @@
 					}
 				}
 			}
+		},
+
+		"/api/own": {
+			"post": {
+				"summary": "Add your own cocktail recipe",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"requestBody": {
+					"description": "Cocktail recipe data",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"drink": {
+										"type": "string"
+									},
+									"drinkAlternate": {
+										"type": "string"
+									},
+									"tags": {
+										"type": "string"
+									},
+									"video": {
+										"type": "string"
+									},
+									"category": {
+										"type": "string",
+										"enum": [
+											"Ordinary Drink",
+											"Cocktail",
+											"Snake",
+											"Other/Unknow",
+											"Cocoa",
+											"Shot",
+											"Coffee/Tea",
+											"Homemade Liqueur",
+											"Punch / Party Drink",
+											"Beer",
+											"Soft Drink"
+										]
+									},
+									"glass": {
+										"type": "string",
+										"enum": [
+											"Highball glass",
+											"Cocktail glass",
+											"Old-fashioned",
+											"Whiskey Glass",
+											"Collins glass",
+											"Pousse cafe glass",
+											"Champagne flute",
+											"Whiskey sour glass",
+											"Cordial glass",
+											"Brandy snifter",
+											"White wine glass"
+										]
+									},
+									"instructions": {
+										"type": "string"
+									},
+									"instructionsES": {
+										"type": "string"
+									},
+									"instructionsDE": {
+										"type": "string"
+									},
+									"instructionsFR": {
+										"type": "string"
+									},
+									"instructionsIT": {
+										"type": "string"
+									},
+									"instructionsRU": {
+										"type": "string"
+									},
+									"instructionsPL": {
+										"type": "string"
+									},
+									"instructionsUK": {
+										"type": "string"
+									},
+									"ingredients": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"title": {
+													"type": "string"
+												},
+												"measure": {
+													"type": "string"
+												},
+												"ingredientThumb": {
+													"type": "string"
+												},
+												"thumb-medium": {
+													"type": "string"
+												},
+												"thumb-small": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"title",
+												"measure",
+												"ingredientThumb",
+												"thumb-medium",
+												"thumb-small"
+											]
+										}
+									}
+								},
+								"required": [
+									"drink",
+									"category",
+									"glass",
+									"instructions",
+									"ingredients"
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Cocktail recipe added successfully",
+						"content": {
+							"application/json": {
+								"example": {
+									"message": "Cocktail recipe added successfully",
+									"data": {}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Bad Request",
+									"message": "Invalid request data"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Unauthorized",
+									"message": "Authentication failed"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Internal Server Error",
+									"message": "An internal server error occurred"
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 
