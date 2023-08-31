@@ -63,9 +63,6 @@
 					"400": {
 						"description": "Bad request (invalid request body)"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
 					"409": {
 						"description": "Conflict: Email in use"
 					},
@@ -108,9 +105,6 @@
 					"401": {
 						"description": "Unauthorized: Email or password is wrong"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
 					"409": {
 						"description": "Email in use",
 						"content": {}
@@ -146,12 +140,7 @@
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
-					"404": {
-						"description": "Not Found"
-					},
+
 					"500": {
 						"description": "Internal Server Error"
 					}
@@ -238,17 +227,18 @@
 					},
 					"400": {
 						"description": "No fields to update",
-						"content": {}
+						"content": {
+							"application/json": {
+								"example": {
+									"message": "No fields to update"
+								}
+							}
+						}
 					},
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
-					"404": {
-						"description": "Not Found"
-					},
+
 					"500": {
 						"description": "Internal Server Error"
 					}
@@ -292,12 +282,6 @@
 						"description": "Bad request (invalid request body)",
 						"content": {}
 					},
-					"401": {
-						"description": "Unauthorized: Not authorized"
-					},
-					"403": {
-						"description": "Forbidden"
-					},
 					"409": {
 						"description": "Already subscribed to this email",
 						"content": {}
@@ -334,18 +318,9 @@
 							}
 						}
 					},
-					"400": {
-						"description": "Bad request (invalid request body)",
-						"content": {}
-					},
+
 					"401": {
 						"description": "Unauthorized: Not authorized"
-					},
-					"403": {
-						"description": "Forbidden"
-					},
-					"404": {
-						"description": "Not Found"
 					},
 					"500": {
 						"description": "Internal Server Error"
@@ -376,19 +351,11 @@
 							}
 						}
 					},
-					"400": {
-						"description": "Bad request (invalid request body)",
-						"content": {}
-					},
+
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
-					"404": {
-						"description": "Not Found"
-					},
+
 					"500": {
 						"description": "Internal Server Error"
 					}
@@ -418,19 +385,11 @@
 							}
 						}
 					},
-					"400": {
-						"description": "Bad request (invalid request body)",
-						"content": {}
-					},
+
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
-					"404": {
-						"description": "Not Found"
-					},
+
 					"500": {
 						"description": "Internal Server Error"
 					}
@@ -528,19 +487,11 @@
 							}
 						}
 					},
-					"400": {
-						"description": "Bad request (invalid request body)",
-						"content": {}
-					},
+
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
-					"404": {
-						"description": "Not Found"
-					},
+
 					"500": {
 						"description": "Internal Server Error"
 					}
