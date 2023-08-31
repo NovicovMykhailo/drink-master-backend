@@ -133,9 +133,9 @@ const getFavsByUser = async (req, res) => {
   const { page = 1, limit = 9 } = req.query;
   const skip = (page - 1) * limit;
 
-  const length = await Cocktail.countDocuments({ favs: `${_id}` });
+  const length = await Cocktail.countDocuments({ favs: _id });
   const response = await Cocktail.find({
-    favs: `${_id}`,
+    favs: _id,
   }).skip(skip);
 
   const foundCocktails = {
