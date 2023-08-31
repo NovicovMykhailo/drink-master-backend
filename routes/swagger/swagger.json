@@ -914,7 +914,7 @@
 					"description": "Cocktail recipe data",
 					"required": true,
 					"content": {
-						"application/json": {
+						"multipart/form-data": {
 							"schema": { "$ref": "#/components/schemas/addOwnRecipeRequest" }
 						}
 					}
@@ -926,7 +926,35 @@
 							"application/json": {
 								"example": {
 									"message": "Cocktail recipe added successfully",
-									"data": {}
+									"data": {
+										"drink": "string",
+										"drinkAlternate": "string",
+										"tags": "string",
+										"video": "string",
+										"IBA": "string",
+										"alcoholic": "Alcoholic",
+										"category": "Ordinary Drink",
+										"glass": "Highball glass",
+										"instructions": "string",
+										"instructionsES": "string",
+										"instructionsDE": "string",
+										"instructionsFR": "string",
+										"instructionsIT": "string",
+										"instructionsRU": "string",
+										"instructionsPL": "string",
+										"instructionsUK": "string",
+										"ingredients": [
+											{
+												"title": "string",
+												"measure": "string",
+												"ingredientThumb": "string",
+												"thumb-medium": "string",
+												"thumb-small": "string"
+											}
+										],
+										"drinkThumb": "string",
+										"owner": "string"
+									}
 								}
 							}
 						}
@@ -938,6 +966,80 @@
 								"example": {
 									"error": "Bad Request",
 									"message": "Invalid request data"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Unauthorized",
+									"message": "Authentication failed"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Internal Server Error",
+									"message": "An internal server error occurred"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/favorite": {
+			"post": {
+				"summary": "Add cocktail to favorites",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"requestBody": {
+					"description": "Cocktail ID to add to favorites",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"cocktailId": {
+										"type": "string",
+										"description": "ID of the cocktail to add to favorites"
+									}
+								},
+								"required": ["cocktailId"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "added to favs",
+						"content": {
+							"application/json": {
+								"example": {
+									"message": "added to favs"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Bad Request",
+									"message": "id must be set in cocktailId value or cocktail is alrady in favorites"
 								}
 							}
 						}
@@ -1489,9 +1591,7 @@
 					"category",
 					"glass",
 					"instructions",
-					"ingredients",
-					"drinkThumb",
-					"owner"
+					"ingredients"
 				]
 			}
 		},
