@@ -47,7 +47,7 @@ const login = async (req, res) => {
 
   const payload = { id: user._id };
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "365d" });
-  const {avatarURL} = await User.findByIdAndUpdate(user._id, { token });
+  const { avatarURL } = await User.findByIdAndUpdate(user._id, { token });
 
   res.status(200).json({
     token: token,
@@ -55,7 +55,7 @@ const login = async (req, res) => {
       id: user._id,
       email: user.email,
       name: user.name,
-      avatarURL
+      avatarURL,
     },
   });
 };
@@ -91,7 +91,6 @@ const updateUserInfo = async (req, res) => {
   }
   const updatedUser = await User.findByIdAndUpdate(_id, updateFields, { new: true });
   res.status(200).json({ name: updatedUser.name, avatarURL: updatedUser.avatarURL });
-
 };
 
 // decoration
