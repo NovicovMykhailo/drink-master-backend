@@ -1070,6 +1070,93 @@
 						}
 					}
 				}
+			},
+			"delete": {
+				"summary": "Delete user's own cocktail recipe",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"requestBody": {
+					"description": "Cocktail recipe data",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"cocktailId": {
+										"type": "string",
+										"description": "ID of the cocktail recipe to delete"
+									}
+								},
+								"required": ["cocktailId"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Cocktail recipe deleted successfully",
+						"content": {
+							"application/json": {
+								"example": {
+									"message": "Cocktail deleted",
+									"data": {
+										"_id": "recipeId1",
+										"drink": "Mojito"
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Unauthorized",
+									"message": "Authentication failed"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Forbidden",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Forbidden",
+									"message": "This user cannot delete other owners' recipes"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Not Found",
+									"message": "Cocktail not found"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Internal Server Error",
+									"message": "An internal server error occurred"
+								}
+							}
+						}
+					}
+				}
 			}
 		},
 		"/api/favorite": {
