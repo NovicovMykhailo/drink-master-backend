@@ -1067,6 +1067,115 @@
 						}
 					}
 				}
+			},
+			"get": {
+				"summary": "Get user's favorite cocktails",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Page number for pagination",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"description": "Number of items per page",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 9
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "List of favorite cocktails",
+						"content": {
+							"application/json": {
+								"example": {
+									"count": {
+										"page": 1,
+										"totalPages": 3,
+										"total": 20
+									},
+									"data": [
+										{
+											"_id": "cocktailId1",
+											"drink": "Margarita",
+											"category": "Cocktail",
+											"glass": "Cocktail glass",
+											"instructions": "Mix it well.",
+											"ingredients": [
+												{
+													"title": "Tequila",
+													"measure": "2 oz"
+												},
+												{
+													"title": "Lime juice",
+													"measure": "1 oz"
+												}
+											],
+											"favs": ["userId1", "userId2"],
+											"drinkThumb": "url_to_image.jpg"
+										},
+										{
+											"_id": "cocktailId2",
+											"drink": "Cosmopolitan",
+											"category": "Cocktail",
+											"glass": "Cocktail glass",
+											"instructions": "Shake and strain.",
+											"ingredients": [
+												{
+													"title": "Vodka",
+													"measure": "1.5 oz"
+												},
+												{
+													"title": "Triple sec",
+													"measure": "1 oz"
+												}
+											],
+											"favs": ["userId1"],
+											"drinkThumb": "url_to_image.jpg"
+										}
+									]
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Unauthorized",
+									"message": "Authentication failed"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Internal Server Error",
+									"message": "An internal server error occurred"
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	},
