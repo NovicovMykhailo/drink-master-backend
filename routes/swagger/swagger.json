@@ -1176,6 +1176,91 @@
 						}
 					}
 				}
+			},
+			"delete": {
+				"summary": "Remove a cocktail from favorites",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"requestBody": {
+					"description": "Cocktail ID to remove from favorites",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"cocktailId": {
+										"type": "string"
+									}
+								},
+								"required": ["cocktailId"]
+							},
+							"example": {
+								"cocktailId": "639b6de9ff77d221f190c53d"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "removed from fav",
+						"content": {
+							"application/json": {
+								"example": {
+									"message": "removed from fav"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Bad Request",
+									"message": "Invalid request data"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Unauthorized",
+									"message": "Authentication failed"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Not Found",
+									"message": "Cocktail is not in favorites yet"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Internal Server Error",
+									"message": "An internal server error occurred"
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	},
