@@ -993,6 +993,83 @@
 						}
 					}
 				}
+			},
+			"get": {
+				"summary": "Get user's own cocktail recipes",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"schema": {
+							"type": "integer",
+							"default": 1
+						},
+						"description": "Page number for pagination"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"schema": {
+							"type": "integer",
+							"default": 9
+						},
+						"description": "Number of items per page"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "List of user's own cocktail recipes",
+						"content": {
+							"application/json": {
+								"example": {
+									"count": {
+										"page": 1,
+										"totalPages": 3,
+										"total": 25
+									},
+									"data": [
+										{
+											"_id": "recipeId1",
+											"drink": "Mojito"
+										},
+										{
+											"_id": "recipeId2",
+											"drink": "Cosmopolitan"
+										}
+									]
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Unauthorized",
+									"message": "Authentication failed"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Internal Server Error",
+									"message": "An internal server error occurred"
+								}
+							}
+						}
+					}
+				}
 			}
 		},
 		"/api/favorite": {
