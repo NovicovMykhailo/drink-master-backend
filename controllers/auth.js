@@ -90,7 +90,7 @@ const updateUserInfo = async (req, res) => {
     return res.status(400).json({ message: "No fields to update" });
   }
   const updatedUser = await User.findByIdAndUpdate(_id, updateFields, { new: true });
-  res.status(200).json({ name: updatedUser.name, avatarUrl: updatedUser.avatarURL });
+  res.status(200).json({ name: updatedUser.name, avatarURL: updatedUser.avatarURL });
 
 };
 
