@@ -876,36 +876,35 @@
 						"content": {
 							"application/json": {
 								"example": {
-									"message": "Cocktail recipe added successfully",
-									"data": {
-										"drink": "string",
-										"drinkAlternate": "string",
-										"tags": "string",
-										"video": "string",
-										"IBA": "string",
-										"alcoholic": "Alcoholic",
-										"category": "Ordinary Drink",
-										"glass": "Highball glass",
-										"instructions": "string",
-										"instructionsES": "string",
-										"instructionsDE": "string",
-										"instructionsFR": "string",
-										"instructionsIT": "string",
-										"instructionsRU": "string",
-										"instructionsPL": "string",
-										"instructionsUK": "string",
-										"ingredients": [
-											{
-												"title": "string",
-												"measure": "string",
-												"ingredientThumb": "string",
-												"thumb-medium": "string",
-												"thumb-small": "string"
-											}
-										],
-										"drinkThumb": "string",
-										"owner": "string"
-									}
+									"drink": "my own Cocktail",
+									"drinkAlternate": null,
+									"tags": null,
+									"video": null,
+									"IBA": null,
+									"alcoholic": "Alcoholic",
+									"category": "Ordinary Drink",
+									"glass": "Highball glass",
+									"instructions": "just mix",
+									"instructionsES": null,
+									"instructionsDE": null,
+									"instructionsFR": null,
+									"instructionsIT": null,
+									"instructionsRU": null,
+									"instructionsPL": null,
+									"instructionsUK": null,
+									"ingredients": [
+										{
+											"title": "string",
+											"measure": "string",
+											"ingredientThumb": "string",
+											"thumb-medium": "string",
+											"thumb-small": "string"
+										}
+									],
+									"favs": [],
+									"drinkThumb": "string",
+									"owner": "string",
+									"_id": "64f34762f1895bc1cce913b7"
 								}
 							}
 						}
@@ -978,22 +977,30 @@
 						"description": "List of user's own cocktail recipes",
 						"content": {
 							"application/json": {
-								"example": {
-									"count": {
-										"page": 1,
-										"totalPages": 3,
-										"total": 25
-									},
-									"data": [
-										{
-											"_id": "recipeId1",
-											"drink": "Mojito"
+								"schema": {
+									"type": "object",
+									"properties": {
+										"count": {
+											"type": "object",
+											"properties": {
+												"page": {
+													"type": "integer"
+												},
+												"totalPages": {
+													"type": "integer"
+												},
+												"total": {
+													"type": "integer"
+												}
+											}
 										},
-										{
-											"_id": "recipeId2",
-											"drink": "Cosmopolitan"
+										"data": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/Cocktail"
+											}
 										}
-									]
+									}
 								}
 							}
 						}
@@ -1053,13 +1060,40 @@
 						"description": "Cocktail recipe deleted successfully",
 						"content": {
 							"application/json": {
-								"example": {
-									"message": "Cocktail deleted",
-									"data": {
-										"_id": "recipeId1",
-										"drink": "Mojito"
+								"example": [
+									{ "message": "Cocktail deleted" },
+									{
+										"_id": "64f32729d1175dda3eae5018",
+										"drink": "string",
+										"drinkAlternate": "string",
+										"tags": "string",
+										"video": "string",
+										"IBA": "string",
+										"alcoholic": "Alcoholic",
+										"category": "Ordinary Drink",
+										"glass": "Highball glass",
+										"instructions": "string",
+										"instructionsES": "string",
+										"instructionsDE": "string",
+										"instructionsFR": "string",
+										"instructionsIT": "string",
+										"instructionsRU": "string",
+										"instructionsPL": "string",
+										"instructionsUK": "string",
+										"ingredients": [
+											{
+												"title": "string",
+												"measure": "string",
+												"ingredientThumb": "string",
+												"thumb-medium": "string",
+												"thumb-small": "string"
+											}
+										],
+										"favs": [],
+										"drinkThumb": "string",
+										"owner": "string"
 									}
-								}
+								]
 							}
 						}
 					},
@@ -1513,8 +1547,9 @@
 						"type": "string",
 						"description": "User's name"
 					},
-					"avatarUrl": {
+					"avatarURL": {
 						"type": "string",
+						"format": "binary",
 						"description": "Avatar link"
 					}
 				},
@@ -1784,7 +1819,8 @@
 				"type": "object",
 				"properties": {
 					"drink": {
-						"type": "string"
+						"type": "string",
+						"example": "my own cocktail"
 					},
 					"drinkAlternate": {
 						"type": "string"
@@ -1799,8 +1835,7 @@
 						"type": "string"
 					},
 					"alcoholic": {
-						"type": "string",
-						"default": "Alcoholic"
+						"type": "string"
 					},
 					"category": {
 						"type": "string",
@@ -1835,7 +1870,8 @@
 						]
 					},
 					"instructions": {
-						"type": "string"
+						"type": "string",
+						"example": "just mix"
 					},
 					"instructionsES": {
 						"type": "string"
@@ -1859,40 +1895,15 @@
 						"type": "string"
 					},
 					"ingredients": {
-						"type": "array",
+						"type": "string",
 						"items": {
-							"type": "object",
-							"properties": {
-								"title": {
-									"type": "string"
-								},
-								"measure": {
-									"type": "string"
-								},
-								"ingredientThumb": {
-									"type": "string"
-								},
-								"thumb-medium": {
-									"type": "string"
-								},
-								"thumb-small": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"title",
-								"measure",
-								"ingredientThumb",
-								"thumb-medium",
-								"thumb-small"
-							]
+							"description": "add json fail with ingridients",
+							"format": "binary"
 						}
 					},
-					"drinkThumb": {
-						"type": "string"
-					},
-					"owner": {
-						"type": "string"
+					"recipeImg": {
+						"type": "string",
+						"format": "binary"
 					}
 				},
 				"required": [
@@ -1900,7 +1911,8 @@
 					"category",
 					"glass",
 					"instructions",
-					"ingredients"
+					"ingredients",
+					"recipeImg"
 				]
 			}
 		},
