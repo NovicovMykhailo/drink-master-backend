@@ -416,7 +416,20 @@
 						"description": "Category filter",
 						"required": false,
 						"schema": {
-							"type": "string"
+							"type": "string",
+							"enum": [
+								"Ordinary Drink",
+								"Cocktail",
+								"Snake",
+								"Other/Unknow",
+								"Cocoa",
+								"Shot",
+								"Coffee/Tea",
+								"Homemade Liqueur",
+								"Punch / Party Drink",
+								"Beer",
+								"Soft Drink"
+							]
 						}
 					},
 					{
