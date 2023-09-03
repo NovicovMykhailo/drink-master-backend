@@ -840,7 +840,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Cocktail"
+									"$ref": "#/components/schemas/CocktailByID"
 								}
 							}
 						}
@@ -1808,6 +1808,111 @@
 											}
 										}
 									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"CocktailByID": {
+				"type": "object",
+				"properties": {
+					"_id": {
+						"type": "string",
+						"example": "639b6de9ff77d221f190c5f0"
+					},
+					"drink": {
+						"type": "string",
+						"example": "Winter Rita"
+					},
+					"drinkAlternate": {
+						"type": "string",
+						"example": null
+					},
+					"tags": {
+						"type": "string",
+						"example": "Winter"
+					},
+					"video": {
+						"type": "string",
+						"example": null
+					},
+					"category": {
+						"type": "string",
+						"example": "Beer"
+					},
+					"IBA": {
+						"type": "string",
+						"example": null
+					},
+					"alcoholic": {
+						"type": "string",
+						"example": "Alcoholic"
+					},
+					"glass": {
+						"type": "string",
+						"example": "Highball Glass"
+					},
+					"instructions": {
+						"type": "string",
+						"example": "instruction text"
+					},
+					"instructionsES": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"instructionsDE": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"instructionsFR": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"instructionsIT": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"instructionsRU": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"instructionsPL": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"instructionsUK": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"drinkThumb": {
+						"type": "string",
+						"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689167165/cocktails-v1/drinks/Winter_Rita.jpg"
+					},
+					"ingredients": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"title": {
+									"type": "string",
+									"example": "Tequila"
+								},
+								"measure": {
+									"type": "string",
+									"example": "1 2/3 oz"
+								},
+								"ingredientThumb": {
+									"type": "string",
+									"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169616/cocktails-v1/ingredient/Tequila.png"
+								},
+								"thumb-medium": {
+									"type": "string",
+									"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169616/cocktails-v1/ingredient/Tequila-Medium.png"
+								},
+								"thumb-small": {
+									"type": "string",
+									"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169616/cocktails-v1/ingredient/Tequila-Small.png"
 								}
 							}
 						}
