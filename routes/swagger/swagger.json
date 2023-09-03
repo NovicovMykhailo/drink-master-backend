@@ -1560,16 +1560,6 @@
 				"items": {
 					"type": "object",
 					"properties": {
-						"id": {
-							"type": "string",
-							"description": "unique identifier",
-							"example": "65165165165"
-						},
-						"email": {
-							"type": "email",
-							"description": "User's email",
-							"example": "mango@mail.com"
-						},
 						"name": {
 							"description": "User's name",
 							"example": "Mango",
