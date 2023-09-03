@@ -362,7 +362,7 @@
 				}
 			}
 		},
-		"/api/popular-recipe": {
+		"/api/popular-recipes": {
 			"get": {
 				"summary": "Get a list of popular recipes",
 				"tags": ["api"],
