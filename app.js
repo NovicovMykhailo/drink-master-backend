@@ -4,6 +4,7 @@ import cors from "cors";
 import cocktailsRouter from "./routes/api/cocktails.js";
 import authRouter from "./routes/api/auth.js";
 import subscribeRouter from "./routes/api/subscribe.js";
+import swaggerRouter from "./routes/swagger/swagger.js";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use("/users", authRouter);
 app.use("/api", cocktailsRouter);
 app.use("/subscribe", subscribeRouter);
+app.use("/api-docs", swaggerRouter);
 
 app.use((req, res) => {
 	res.status(404).json({ message: "Not found" });

@@ -1,0 +1,1925 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"version": "1.0.0",
+		"title": "Drink Master",
+		"description": "Drink Master API",
+		"contact": {
+			"email": "drink-master-backend@ukr.net"
+		},
+		"license": {
+			"name": "MIT",
+			"url": "https://opensource.org/licenses/MIT"
+		}
+	},
+	"consumes": ["application/json", "multipart/form-data"],
+	"produces": ["application/json"],
+	"servers": [{ "url": "http://localhost:3000" }],
+	"tags": [
+		{
+			"name": "users",
+			"description": "Authorization endpoints"
+		},
+		{
+			"name": "subscribe",
+			"description": "sending an email to subscribe"
+		},
+		{
+			"name": "api",
+			"description": "working with cocktails"
+		}
+	],
+	"paths": {
+		"/users/register": {
+			"post": {
+				"summary": "User Registration",
+				"tags": ["users"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegistrationRequest"
+							}
+						}
+					},
+					"description": "Request for user registration",
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"description": "Successful user registration",
+						"content": {
+							"application/json": {
+								"example": {
+									"user": {
+										"email": "user@example.com",
+										"name": "John Doe",
+										"avatarURL": "https://example.com/avatar.png"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)"
+					},
+					"409": {
+						"description": "Conflict: Email in use"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/users/login": {
+			"post": {
+				"summary": "User Login",
+				"tags": ["users"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/authenticationRequest"
+							}
+						}
+					},
+					"description": "Request for user login",
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "Successful user login",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/authenticationResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Email or password is wrong"
+					},
+					"409": {
+						"description": "Email in use",
+						"content": {}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/users/current": {
+			"get": {
+				"summary": "Get Current User",
+				"tags": ["users"],
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+
+				"responses": {
+					"201": {
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/currentResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/users/logout": {
+			"post": {
+				"summary": "User Logout",
+				"tags": ["users"],
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Need only Auth token",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/securitySchemes"
+							}
+						}
+					}
+				},
+				"responses": {
+					"204": {
+						"description": "Successful user logout",
+						"content": {
+							"application/json": {
+								"example": {
+									"message": "Logout successful"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/users/update": {
+			"patch": {
+				"tags": ["users"],
+				"summary": "Update user info",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Update user info",
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"allOf": [
+									{ "$ref": "#/components/schemas/securitySchemes" },
+									{ "$ref": "#/components/schemas/updateRequest" }
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/updateResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "No fields to update",
+						"content": {
+							"application/json": {
+								"example": {
+									"message": "No fields to update"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/subscribe": {
+			"post": {
+				"tags": ["subscribe"],
+				"summary": "sending an email to subscribe",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Update user info",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"allOf": [
+									{ "$ref": "#/components/schemas/subscribeRequest" },
+									{ "$ref": "#/components/schemas/securitySchemes" }
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Subscribe email sent",
+						"content": {
+							"application/json": {
+								"schema": {
+									"example": {
+										"message": "Subscribe email sent"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"409": {
+						"description": "Already subscribed to this email",
+						"content": {}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/glasses": {
+			"get": {
+				"parameters": [],
+				"summary": "Get a list of glasses",
+				"tags": ["api"],
+				"security": [{ "Bearer": [] }],
+
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved glasses",
+						"type": "array",
+						"content": {
+							"application/json": {
+								"example": [
+									{
+										"_id": "64e783491b6691092d9535d4",
+										"name": "Sample Glass 1"
+									},
+									{
+										"_id": "64e783491b6691092d95y666",
+										"name": "Sample Glass 2"
+									}
+								]
+							}
+						}
+					},
+
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/ingredients/list": {
+			"get": {
+				"summary": "Get a list of ingredients",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved ingredients",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/IngredientResponse"
+									}
+								}
+							}
+						}
+					},
+
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/popular-recipe": {
+			"get": {
+				"summary": "Get a list of popular recipes",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved popular recipes",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/RecipeResponse"
+									}
+								}
+							}
+						}
+					},
+
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/search": {
+			"get": {
+				"summary": "Search cocktails by query",
+				"tags": ["api"],
+				"parameters": [
+					{
+						"name": "q",
+						"in": "query",
+						"description": "Search query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "category",
+						"in": "query",
+						"description": "Category filter",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "ingredient",
+						"in": "query",
+						"description": "Ingredient filter",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Page number",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"description": "Results per page",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 9
+						}
+					}
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved cocktails",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"count": {
+											"type": "object",
+											"properties": {
+												"page": {
+													"type": "integer"
+												},
+												"totalPages": {
+													"type": "integer"
+												},
+												"total": {
+													"type": "integer"
+												}
+											}
+										},
+										"data": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/RecipeResponse"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/recipes/category-list": {
+			"get": {
+				"summary": "Get a list of recipe categories",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved recipe categories",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"_id": {
+												"type": "string",
+												"description": "MongoDB ID",
+												"example": "64e7289f1b6691092d026395"
+											},
+											"name": {
+												"description": "category name",
+												"example": "Beer",
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/recipes/main-page": {
+			"get": {
+				"summary": "Get top cocktails by category",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved top cocktails by category",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"category": {
+												"type": "string",
+												"example": "Beer"
+											},
+											"_id": {
+												"type": "string",
+												"example": "m69w-k0HDgo8IKMestoDA"
+											},
+											"items": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"favs": {
+															"type": "array",
+															"items": {
+																"type": "string"
+															}
+														},
+														"_id": {
+															"type": "string",
+															"example": "639b6de9ff77d221f190c5f0"
+														},
+														"drink": {
+															"type": "string",
+															"example": "Winter Rita"
+														},
+														"drinkAlternate": {
+															"type": "string",
+															"example": null
+														},
+														"tags": {
+															"type": "string",
+															"example": "Winter"
+														},
+														"video": {
+															"type": "string",
+															"example": null
+														},
+														"category": {
+															"type": "string",
+															"example": "Beer"
+														},
+														"IBA": {
+															"type": "string",
+															"example": null
+														},
+														"alcoholic": {
+															"type": "string",
+															"example": "Alcoholic"
+														},
+														"glass": {
+															"type": "string",
+															"example": "Highball Glass"
+														},
+														"instructions": {
+															"type": "string",
+															"example": "instruction text"
+														},
+														"instructionsES": {
+															"type": "string",
+															"example": "instruction text in that language"
+														},
+														"instructionsDE": {
+															"type": "string",
+															"example": "instruction text in that language"
+														},
+														"instructionsFR": {
+															"type": "string",
+															"example": "instruction text in that language"
+														},
+														"instructionsIT": {
+															"type": "string",
+															"example": "instruction text in that language"
+														},
+														"instructionsRU": {
+															"type": "string",
+															"example": "instruction text in that language"
+														},
+														"instructionsPL": {
+															"type": "string",
+															"example": "instruction text in that language"
+														},
+														"instructionsUK": {
+															"type": "string",
+															"example": "instruction text in that language"
+														},
+														"drinkThumb": {
+															"type": "string",
+															"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689167165/cocktails-v1/drinks/Winter_Rita.jpg"
+														},
+														"ingredients": {
+															"type": "array",
+															"items": {
+																"type": "object",
+																"properties": {
+																	"title": {
+																		"type": "string",
+																		"example": "Tequila"
+																	},
+																	"measure": {
+																		"type": "string",
+																		"example": "1 2/3 oz"
+																	},
+																	"ingredientThumb": {
+																		"type": "string",
+																		"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169616/cocktails-v1/ingredient/Tequila.png"
+																	},
+																	"thumb-medium": {
+																		"type": "string",
+																		"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169616/cocktails-v1/ingredient/Tequila-Medium.png"
+																	},
+																	"thumb-small": {
+																		"type": "string",
+																		"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169616/cocktails-v1/ingredient/Tequila-Small.png"
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/recipes": {
+			"get": {
+				"summary": "Get all cocktails",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Page number",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"description": "Number of items per page",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 9
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved cocktails",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"count": {
+											"type": "object",
+											"properties": {
+												"page": {
+													"type": "integer"
+												},
+												"totalPages": {
+													"type": "integer"
+												},
+												"total": {
+													"type": "integer"
+												}
+											}
+										},
+										"data": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/Cocktail"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Cocktail not found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/recipes/{cocktailId}": {
+			"get": {
+				"summary": "Get a cocktail by ID",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "cocktailId",
+						"in": "path",
+						"description": "ID of the cocktail",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved cocktail by ID",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Cocktail"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"401": {
+						"description": "Unauthorized: Not authorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Cocktail not found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+
+		"/api/own": {
+			"post": {
+				"summary": "Add your own cocktail recipe",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"requestBody": {
+					"description": "Cocktail recipe data",
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": { "$ref": "#/components/schemas/addOwnRecipeRequest" }
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Cocktail recipe added successfully",
+						"content": {
+							"application/json": {
+								"example": {
+									"drink": "my own Cocktail",
+									"drinkAlternate": null,
+									"tags": null,
+									"video": null,
+									"IBA": null,
+									"alcoholic": "Alcoholic",
+									"category": "Ordinary Drink",
+									"glass": "Highball glass",
+									"instructions": "just mix",
+									"instructionsES": null,
+									"instructionsDE": null,
+									"instructionsFR": null,
+									"instructionsIT": null,
+									"instructionsRU": null,
+									"instructionsPL": null,
+									"instructionsUK": null,
+									"ingredients": [
+										{
+											"title": "string",
+											"measure": "string",
+											"ingredientThumb": "string",
+											"thumb-medium": "string",
+											"thumb-small": "string"
+										}
+									],
+									"favs": [],
+									"drinkThumb": "string",
+									"owner": "string",
+									"_id": "64f34762f1895bc1cce913b7"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Bad Request",
+									"message": "Invalid request data"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Unauthorized",
+									"message": "Authentication failed"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Internal Server Error",
+									"message": "An internal server error occurred"
+								}
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"summary": "Get user's own cocktail recipes",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"schema": {
+							"type": "integer",
+							"default": 1
+						},
+						"description": "Page number for pagination"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"schema": {
+							"type": "integer",
+							"default": 9
+						},
+						"description": "Number of items per page"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "List of user's own cocktail recipes",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"count": {
+											"type": "object",
+											"properties": {
+												"page": {
+													"type": "integer"
+												},
+												"totalPages": {
+													"type": "integer"
+												},
+												"total": {
+													"type": "integer"
+												}
+											}
+										},
+										"data": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/Cocktail"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Unauthorized",
+									"message": "Authentication failed"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Internal Server Error",
+									"message": "An internal server error occurred"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete user's own cocktail recipe",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"requestBody": {
+					"description": "Cocktail recipe data",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"cocktailId": {
+										"type": "string",
+										"description": "ID of the cocktail recipe to delete"
+									}
+								},
+								"required": ["cocktailId"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Cocktail recipe deleted successfully",
+						"content": {
+							"application/json": {
+								"example": [
+									{ "message": "Cocktail deleted" },
+									{
+										"_id": "64f32729d1175dda3eae5018",
+										"drink": "string",
+										"drinkAlternate": "string",
+										"tags": "string",
+										"video": "string",
+										"IBA": "string",
+										"alcoholic": "Alcoholic",
+										"category": "Ordinary Drink",
+										"glass": "Highball glass",
+										"instructions": "string",
+										"instructionsES": "string",
+										"instructionsDE": "string",
+										"instructionsFR": "string",
+										"instructionsIT": "string",
+										"instructionsRU": "string",
+										"instructionsPL": "string",
+										"instructionsUK": "string",
+										"ingredients": [
+											{
+												"title": "string",
+												"measure": "string",
+												"ingredientThumb": "string",
+												"thumb-medium": "string",
+												"thumb-small": "string"
+											}
+										],
+										"favs": [],
+										"drinkThumb": "string",
+										"owner": "string"
+									}
+								]
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Unauthorized",
+									"message": "Authentication failed"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Forbidden",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Forbidden",
+									"message": "This user cannot delete other owners' recipes"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Not Found",
+									"message": "Cocktail not found"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Internal Server Error",
+									"message": "An internal server error occurred"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/favorite": {
+			"post": {
+				"summary": "Add cocktail to favorites",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"requestBody": {
+					"description": "Cocktail ID to add to favorites",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"cocktailId": {
+										"type": "string",
+										"description": "ID of the cocktail to add to favorites"
+									}
+								},
+								"required": ["cocktailId"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "added to favs",
+						"content": {
+							"application/json": {
+								"example": {
+									"message": "added to favs"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Bad Request",
+									"message": "id must be set in cocktailId value or cocktail is alrady in favorites"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Unauthorized",
+									"message": "Authentication failed"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Internal Server Error",
+									"message": "An internal server error occurred"
+								}
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"summary": "Get user's favorite cocktails",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Page number for pagination",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"description": "Number of items per page",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 9
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "List of favorite cocktails",
+						"content": {
+							"application/json": {
+								"example": {
+									"count": {
+										"page": 1,
+										"totalPages": 3,
+										"total": 20
+									},
+									"data": [
+										{
+											"_id": "cocktailId1",
+											"drink": "Margarita",
+											"category": "Cocktail",
+											"glass": "Cocktail glass",
+											"instructions": "Mix it well.",
+											"ingredients": [
+												{
+													"title": "Tequila",
+													"measure": "2 oz"
+												},
+												{
+													"title": "Lime juice",
+													"measure": "1 oz"
+												}
+											],
+											"favs": ["userId1", "userId2"],
+											"drinkThumb": "url_to_image.jpg"
+										},
+										{
+											"_id": "cocktailId2",
+											"drink": "Cosmopolitan",
+											"category": "Cocktail",
+											"glass": "Cocktail glass",
+											"instructions": "Shake and strain.",
+											"ingredients": [
+												{
+													"title": "Vodka",
+													"measure": "1.5 oz"
+												},
+												{
+													"title": "Triple sec",
+													"measure": "1 oz"
+												}
+											],
+											"favs": ["userId1"],
+											"drinkThumb": "url_to_image.jpg"
+										}
+									]
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Unauthorized",
+									"message": "Authentication failed"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Internal Server Error",
+									"message": "An internal server error occurred"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Remove a cocktail from favorites",
+				"tags": ["api"],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"requestBody": {
+					"description": "Cocktail ID to remove from favorites",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"cocktailId": {
+										"type": "string"
+									}
+								},
+								"required": ["cocktailId"]
+							},
+							"example": {
+								"cocktailId": "639b6de9ff77d221f190c53d"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "removed from fav",
+						"content": {
+							"application/json": {
+								"example": {
+									"message": "removed from fav"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Bad Request",
+									"message": "Invalid request data"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Unauthorized",
+									"message": "Authentication failed"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Not Found",
+									"message": "Cocktail is not in favorites yet"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"content": {
+							"application/json": {
+								"example": {
+									"error": "Internal Server Error",
+									"message": "An internal server error occurred"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+
+	"components": {
+		"schemas": {
+			"RegistrationResponse": {
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"name": {
+						"type": "string"
+					},
+					"avatarURL": {
+						"type": "string"
+					}
+				}
+			},
+			"RegistrationRequest": {
+				"type": "object",
+				"required": ["email", "password", "name"],
+				"properties": {
+					"email": {
+						"type": "string",
+						"description": "User's email",
+						"format": "email"
+					},
+					"name": {
+						"type": "string",
+						"description": "User's name",
+						"example": "Poly"
+					},
+					"password": {
+						"type": "string",
+						"description": "User's password",
+						"example": "qwerty123"
+					}
+				},
+				"example": {
+					"email": "ajax@mail.com",
+					"name": "Poly",
+					"password": "123456789"
+				}
+			},
+
+			"authenticationRequest": {
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string",
+						"description": "User's email",
+						"format": "email"
+					},
+					"password": {
+						"type": "string",
+						"description": "User's password"
+					}
+				},
+				"example": {
+					"email": "ajax@mail.com",
+					"password": "123456789"
+				},
+				"required": ["email", "password"]
+			},
+			"authenticationResponse": {
+				"type": "object",
+				"items": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string",
+							"description": "unique identifier",
+							"example": "65165165165"
+						},
+						"email": {
+							"type": "email",
+							"description": "User's email",
+							"example": "mango@mail.com"
+						},
+						"name": {
+							"description": "User's name",
+							"example": "Mango",
+							"type": "string"
+						},
+						"avatarUrl": { "type": "string", "description": "avatar link" }
+					}
+				},
+				"example": {
+					"token": "15115551",
+					"user": {
+						"id": "000555000555dfdfd5f05df",
+						"email": "ajax@mail.com",
+						"name": "ajax",
+						"avatarURL": "https://s.gravatar.com/avatar/"
+					}
+				}
+			},
+			"currentResponse": {
+				"type": "object",
+				"items": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string",
+							"description": "unique identifier",
+							"example": "65165165165"
+						},
+						"email": {
+							"type": "email",
+							"description": "User's email",
+							"example": "mango@mail.com"
+						},
+						"name": {
+							"description": "User's name",
+							"example": "Mango",
+							"type": "string"
+						},
+						"avatarUrl": { "type": "string", "description": "avatar link" }
+					}
+				},
+				"example": {
+					"_id": "65165163513513",
+					"name": "ajax",
+					"email": "ajax@mail.com",
+					"avatarURL": "https://s.gravatar.com/avatar"
+				}
+			},
+			"updateRequest": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "User's name"
+					},
+					"avatarURL": {
+						"type": "string",
+						"format": "binary",
+						"description": "Avatar link"
+					}
+				},
+				"required": []
+			},
+			"updateResponse": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string",
+							"description": "unique identifier",
+							"example": "65165165165"
+						},
+						"email": {
+							"type": "email",
+							"description": "User's email",
+							"example": "mango@mail.com"
+						},
+						"name": {
+							"description": "User's name",
+							"example": "Mango",
+							"type": "string"
+						},
+						"avatarUrl": { "type": "string", "description": "avatar link" }
+					}
+				},
+				"example": {
+					"_id": "65165163513513",
+					"name": "ajax",
+					"email": "ajax@mail.com",
+					"avatarURL": "https://s.gravatar.com/avatar"
+				}
+			},
+			"subscribeRequest": {
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string",
+						"description": "User's email",
+						"format": "email"
+					}
+				},
+				"example": {
+					"email": "ajax@mail.com"
+				},
+				"required": ["email"]
+			},
+			"GlassesResponse": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"_id": {
+							"type": "string",
+							"example": "64e783491b6691092d9535d4"
+						},
+						"name": {
+							"type": "string",
+							"example": "Sample Glass 1"
+						}
+					}
+				}
+			},
+			"IngredientResponse": {
+				"type": "object",
+				"properties": {
+					"_id": {
+						"type": "string",
+						"example": "64e783491b6691092d9535d4"
+					},
+					"title": {
+						"type": "string",
+						"example": "Bitters"
+					},
+					"ingredientThumb": {
+						"type": "string",
+						"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Bitters.png"
+					},
+					"thumb-medium": {
+						"type": "string",
+						"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Bitters-Medium.png"
+					},
+					"thumb-small": {
+						"type": "string",
+						"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Bitters-Small.png"
+					}
+				}
+			},
+			"RecipeResponse": {
+				"type": "object",
+				"properties": {
+					"drink": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"glass": {
+						"type": "string"
+					},
+					"instructions": {
+						"type": "string"
+					},
+					"ingredients": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"favs": {
+						"type": "array"
+					},
+					"drinkThumb": {
+						"type": "string"
+					}
+				}
+			},
+			"CategoryResponse": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"_id": {
+							"type": "string",
+							"example": "64e783491b6691092d9535d4"
+						},
+						"name": {
+							"type": "string",
+							"example": "Beer"
+						}
+					}
+				}
+			},
+			"Cocktail": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"category": {
+							"type": "string",
+							"example": "Beer"
+						},
+						"_id": {
+							"type": "string",
+							"example": "m69w-k0HDgo8IKMestoDA"
+						},
+						"items": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"favs": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"_id": {
+										"type": "string",
+										"example": "639b6de9ff77d221f190c5f0"
+									},
+									"drink": {
+										"type": "string",
+										"example": "Winter Rita"
+									},
+									"drinkAlternate": {
+										"type": "string",
+										"example": null
+									},
+									"tags": {
+										"type": "string",
+										"example": "Winter"
+									},
+									"video": {
+										"type": "string",
+										"example": null
+									},
+									"category": {
+										"type": "string",
+										"example": "Beer"
+									},
+									"IBA": {
+										"type": "string",
+										"example": null
+									},
+									"alcoholic": {
+										"type": "string",
+										"example": "Alcoholic"
+									},
+									"glass": {
+										"type": "string",
+										"example": "Highball Glass"
+									},
+									"instructions": {
+										"type": "string",
+										"example": "instruction text"
+									},
+									"instructionsES": {
+										"type": "string",
+										"example": "instruction text in that language"
+									},
+									"instructionsDE": {
+										"type": "string",
+										"example": "instruction text in that language"
+									},
+									"instructionsFR": {
+										"type": "string",
+										"example": "instruction text in that language"
+									},
+									"instructionsIT": {
+										"type": "string",
+										"example": "instruction text in that language"
+									},
+									"instructionsRU": {
+										"type": "string",
+										"example": "instruction text in that language"
+									},
+									"instructionsPL": {
+										"type": "string",
+										"example": "instruction text in that language"
+									},
+									"instructionsUK": {
+										"type": "string",
+										"example": "instruction text in that language"
+									},
+									"drinkThumb": {
+										"type": "string",
+										"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689167165/cocktails-v1/drinks/Winter_Rita.jpg"
+									},
+									"ingredients": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"title": {
+													"type": "string",
+													"example": "Tequila"
+												},
+												"measure": {
+													"type": "string",
+													"example": "1 2/3 oz"
+												},
+												"ingredientThumb": {
+													"type": "string",
+													"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169616/cocktails-v1/ingredient/Tequila.png"
+												},
+												"thumb-medium": {
+													"type": "string",
+													"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169616/cocktails-v1/ingredient/Tequila-Medium.png"
+												},
+												"thumb-small": {
+													"type": "string",
+													"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169616/cocktails-v1/ingredient/Tequila-Small.png"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"addOwnRecipeRequest": {
+				"type": "object",
+				"properties": {
+					"drink": {
+						"type": "string",
+						"example": "my own cocktail"
+					},
+					"drinkAlternate": {
+						"type": "string"
+					},
+					"tags": {
+						"type": "string"
+					},
+					"video": {
+						"type": "string"
+					},
+					"IBA": {
+						"type": "string"
+					},
+					"alcoholic": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string",
+						"enum": [
+							"Ordinary Drink",
+							"Cocktail",
+							"Snake",
+							"Other/Unknow",
+							"Cocoa",
+							"Shot",
+							"Coffee/Tea",
+							"Homemade Liqueur",
+							"Punch / Party Drink",
+							"Beer",
+							"Soft Drink"
+						]
+					},
+					"glass": {
+						"type": "string",
+						"enum": [
+							"Highball glass",
+							"Cocktail glass",
+							"Old-fashioned",
+							"Whiskey Glass",
+							"Collins glass",
+							"Pousse cafe glass",
+							"Champagne flute",
+							"Whiskey sour glass",
+							"Cordial glass",
+							"Brandy snifter",
+							"White wine glass"
+						]
+					},
+					"instructions": {
+						"type": "string",
+						"example": "just mix"
+					},
+					"instructionsES": {
+						"type": "string"
+					},
+					"instructionsDE": {
+						"type": "string"
+					},
+					"instructionsFR": {
+						"type": "string"
+					},
+					"instructionsIT": {
+						"type": "string"
+					},
+					"instructionsRU": {
+						"type": "string"
+					},
+					"instructionsPL": {
+						"type": "string"
+					},
+					"instructionsUK": {
+						"type": "string"
+					},
+					"ingredients": {
+						"type": "string",
+						"example": "[{\"title\":\"Light rum\",\"measure\":\"1/4\",\"ingredientThumb\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum.png\",\"thumb-medium\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum-Medium.png\",\"thumb-small\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum-Small.png\"},{\"title\":\"Applejack\",\"measure\":\"1/2\",\"ingredientThumb\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack.png\",\"thumb-medium\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Medium.png\",\"thumb-small\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Small.png\"}]"
+					},
+					"recipeImg": {
+						"type": "string",
+						"format": "binary"
+					}
+				},
+				"required": [
+					"drink",
+					"category",
+					"glass",
+					"instructions",
+					"ingredients",
+					"recipeImg"
+				]
+			}
+		},
+
+		"securitySchemes": {
+			"Bearer": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}
