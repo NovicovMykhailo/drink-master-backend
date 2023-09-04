@@ -1,5 +1,7 @@
 import { HttpError } from "../helpers/HttpError.js";
 import { ingredients } from "../contentValues/ingrediants.js";
+import { glassList } from "../contentValues/glasses.js";
+import { categoryList } from "../contentValues/calegories.js";
 
 
 const validateBody = schema => {
@@ -20,15 +22,15 @@ const validateBody = schema => {
             400,
             `! 'instructions' is required {should provide a recipe preparation instruction} must be String`,
           );
-        case '"category" must be one of [Ordinary Drink, Cocktail, Snake, Other/Unknow, Cocoa, Shot, Coffee/Tea, Homemade Liqueur, Punch / Party Drink, Beer, Soft Drink]':
+        case `"category" must be one of [${categoryList}]`:
           throw HttpError(
             400,
-            "! 'category' must be one of [Ordinary Drink, Cocktail, Snake, Other/Unknow, Cocoa, Shot, Coffee/Tea, Homemade Liqueur, Punch / Party Drink, Beer, Soft Drink]",
+            `! 'category' must be one of [${categoryList}]`,
           );
-        case '"glass" must be one of [Highball glass, Cocktail glass, Old-fashioned, Whiskey Glass, Collins glass, Pousse cafe glass, Champagne flute, Whiskey sour glass, Cordial glass, Brandy snifter, White wine glass]':
+        case `"glass" must be one of [${glassList}]`:
           throw HttpError(
             400,
-            "! 'glass' must be one of [Highball glass, Cocktail glass, Old-fashioned, Whiskey Glass, Collins glass, Pousse cafe glass, Champagne flute, Whiskey sour glass, Cordial glass, Brandy snifter, White wine glass]",
+            `! 'glass' must be one of [${glassList}]`,
           );
         case '"ingredients" is not allowed to be empty':
           throw HttpError(400, `! ingredients must be array of objects {title: one of [${ingredients}] ; 3 photoUrl ;  measures } fields in JSON.String`);
