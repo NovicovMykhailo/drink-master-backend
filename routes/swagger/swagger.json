@@ -14,7 +14,7 @@
 	},
 	"consumes": ["application/json", "multipart/form-data"],
 	"produces": ["application/json"],
-	"servers": [{ "url": "https://drink-master-back-end.onrender.com/" }],
+	"servers": [{ "url": "https://drink-master-back-end.onrender.com" }],
 	"tags": [
 		{
 			"name": "users",
@@ -50,12 +50,8 @@
 						"description": "Successful user registration",
 						"content": {
 							"application/json": {
-								"example": {
-									"user": {
-										"email": "user@example.com",
-										"name": "John Doe",
-										"avatarURL": "https://example.com/avatar.png"
-									}
+								"schema": {
+									"$ref": "#/components/schemas/RegistrationResponse"
 								}
 							}
 						}
@@ -1431,16 +1427,20 @@
 		"schemas": {
 			"RegistrationResponse": {
 				"type": "object",
-				"properties": {
-					"email": {
-						"type": "string",
-						"format": "email"
-					},
-					"name": {
-						"type": "string"
-					},
-					"avatarURL": {
-						"type": "string"
+				"items": {
+					"type": "object",
+					"properties": {
+						"email": {
+							"type": "email",
+							"description": "User's email",
+							"example": "mango@mail.com"
+						},
+						"name": {
+							"description": "User's name",
+							"example": "Mango",
+							"type": "string"
+						},
+						"avatarUrl": { "type": "string", "description": "avatar link" }
 					}
 				},
 				"example": {
