@@ -1939,7 +1939,8 @@
 						"type": "string"
 					},
 					"alcoholic": {
-						"type": "string"
+						"type": "string",
+						"enum": ["Alcoholic", "Not Alcoholic"]
 					},
 					"category": {
 						"type": "string",
