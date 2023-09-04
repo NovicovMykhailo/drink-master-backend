@@ -3,7 +3,7 @@ import gravatar from "gravatar";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.js";
 import { HttpError } from "../helpers/HttpError.js";
-import ctrlWrapper from "./ctrlWrapper.js";
+import ctrlWrapper from "../helpers/ctrlWrapper.js";
 
 //signup
 const register = async (req, res) => {

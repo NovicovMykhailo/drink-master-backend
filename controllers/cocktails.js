@@ -1,5 +1,5 @@
 import { HttpError } from "../helpers/HttpError.js";
-import ctrlWrapper from "./ctrlWrapper.js";
+import ctrlWrapper from "../helpers/ctrlWrapper.js";
 import { Cocktail } from "../models/cocktail.js";
 import { Category } from "../models/category.js";
 import { Glass } from "../models/glass.js";
