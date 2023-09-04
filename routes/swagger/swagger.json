@@ -1442,6 +1442,14 @@
 					"avatarURL": {
 						"type": "string"
 					}
+				},
+				"example": {
+					"token": "15115551",
+					"user": {
+						"email": "ajax@mail.com",
+						"name": "ajax",
+						"avatarURL": "https://s.gravatar.com/avatar/"
+					}
 				}
 			},
 			"RegistrationRequest": {
