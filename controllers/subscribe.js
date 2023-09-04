@@ -1,9 +1,9 @@
-import ctrlWrapper from "./ctrlWrapper.js";
+import ctrlWrapper from "../helpers/ctrlWrapper.js";
 import sendEmail from "../helpers/sendEmail.js";
 import { HttpError } from "../helpers/HttpError.js";
 import { Subscribe } from "../models/subscribe.js";
 
-// const fs = require("fs");
+
 import fs from "node:fs";
 
 // Чтение содержимого HTML-файла

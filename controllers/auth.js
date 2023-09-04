@@ -3,24 +3,35 @@ import gravatar from "gravatar";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.js";
 import { HttpError } from "../helpers/HttpError.js";
-import ctrlWrapper from "./ctrlWrapper.js";
 
+import ctrlWrapper from "../helpers/ctrlWrapper.js";
 //signup
-const register = async (req, res) => {
-  const { email, password, name } = req.body;
+const register = async (req, res, name) => {
+  const { email, password } = req.body;
+  const { SECRET_KEY } = process.env;
+
   const user = await User.findOne({ email });
   if (user) {
     throw HttpError(409, "Email in use");
   }
   const hashPassword = await bcrypt.hash(password, 10);
 
+
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
     avatarURL: gravatar.url(email, { s: 250, d: "identicon", protocol: "https" }),
+
   });
 
+  const payload = { id: newUser._id };
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "365d" });
+  await User.findByIdAndUpdate(newUser._id, { token })
+
+
+
   res.status(201).json({
+    token: token,
     user: {
       email: newUser.email,
       name: newUser.name,

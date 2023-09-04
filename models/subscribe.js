@@ -1,8 +1,9 @@
 import { Schema, model } from "mongoose";
 import Joi from "joi";
 import handleMongooseError from "../helpers/handleMongoosError.js";
+import { emailRegExp } from "../contentValues/regexps.js";
 
-const emailRegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
 
 const emailSubscribeSchema = new Schema(
 	{
