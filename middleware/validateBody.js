@@ -27,7 +27,7 @@ const validateBody = schema => {
             400,
             `category must be one of [${categoryList}]`,
           );
-        case "\"glass\" must be one of [Highball glass, Cocktail glass, Old-fashioned, Whiskey Glass, Collins glass, Pousse cafe glass, Champagne flute, Whiskey sour glass, Cordial glass, Brandy snifter, White wine glass]":
+        case  "\"glass\" must be one of [Balloon Glass, Beer Glass, Beer mug, Beer pilsner, Brandy snifter, Champagne flute, Cocktail glass, Coffee mug, Collins glass, Copper Mug, Cordial glass, Coupe Glass, Highball glass, Hurricane glass, Irish coffee cup, Jar, Margarita glass, Margarita/Coupette glass, Martini Glass, Mason jar, Nick and Nora Glass, Old-fashioned glass, Parfait glass, Pint glass, Pitcher, Pousse cafe glass, Punch bowl, Shot glass, Whiskey Glass, Whiskey sour glass, White wine glass, Wine Glass]":
           throw HttpError(
             400,
             `glass must be one of [${glassList}]`,
