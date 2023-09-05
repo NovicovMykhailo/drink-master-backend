@@ -1,0 +1,18 @@
+[
+	{
+		"_id": "64e711571b6691092da67d0d",
+		"title": "Apple brandy",
+		"measure": "1/4",
+		"ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Apple%20brandy.png",
+		"thumb-medium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Apple%20brandy-Medium.png",
+		"thumb-small": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Apple%20brandy-Small.png"
+	},
+	{
+		"_id": "64e711571b6691092da67cef",
+		"title": "Applejack",
+		"measure": "1/2",
+		"ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack.png",
+		"thumb-medium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Medium.png",
+		"thumb-small": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Small.png"
+	}
+]

@@ -4,11 +4,11 @@
 		"version": "1.0.0",
 		"title": "Drink Master",
 		"description": "[Drink Master API](https://pavtrap.github.io/drink-master-project)",
-		
+
 		"contact": {
 			"url": "https://github.com/NovicovMykhailo/drink-master-backend"
 		},
-		
+
 		"license": {
 			"name": "MIT",
 			"url": "https://opensource.org/licenses/MIT"
@@ -16,7 +16,7 @@
 	},
 	"consumes": ["application/json", "multipart/form-data"],
 	"produces": ["application/json"],
-	"servers": [{ "url": "https://drink-master-back-end.onrender.com" }],
+	"servers": [{ "url": "https://drink-master-back-end.onrender.com/" }],
 	"tags": [
 		{
 			"name": "users",
@@ -180,12 +180,7 @@
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
-					"404": {
-						"description": "Not Found"
-					},
+
 					"500": {
 						"description": "Internal Server Error"
 					}
@@ -233,6 +228,7 @@
 							}
 						}
 					},
+
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
@@ -551,9 +547,7 @@
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
+
 					"404": {
 						"description": "Not Found"
 					},
@@ -717,9 +711,7 @@
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
+
 					"404": {
 						"description": "Not Found"
 					},
@@ -800,9 +792,7 @@
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
+
 					"404": {
 						"description": "Cocktail not found"
 					},
@@ -850,9 +840,7 @@
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
+
 					"404": {
 						"description": "Cocktail not found"
 					},
@@ -1382,7 +1370,7 @@
 							"application/json": {
 								"example": {
 									"error": "Bad Request",
-									"message": "Invalid request data"
+									"message": "ID is not a valid"
 								}
 							}
 						}
@@ -1926,6 +1914,9 @@
 								}
 							}
 						}
+					},
+					"favs": {
+						"type": "array"
 					}
 				}
 			},
@@ -2011,7 +2002,7 @@
 					},
 					"ingredients": {
 						"type": "string",
-						"example": "[{\"title\":\"Light rum\",\"measure\":\"1/4\",\"ingredientThumb\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum.png\",\"thumb-medium\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum-Medium.png\",\"thumb-small\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum-Small.png\"},{\"title\":\"Applejack\",\"measure\":\"1/2\",\"ingredientThumb\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack.png\",\"thumb-medium\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Medium.png\",\"thumb-small\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Small.png\"}]"
+						"example": "[{\"_id\":\"64e711571b6691092da67d0d\",\"title\":\"Apple brandy\",\"measure\":\"1/4\",\"ingredientThumb\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Apple%20brandy.png\",\"thumb-medium\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Apple%20brandy-Medium.png\",\"thumb-small\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Apple%20brandy-Small.png\"},{\"_id\":\"64e711571b6691092da67cef\",\"title\":\"Applejack\",\"measure\":\"1/2\",\"ingredientThumb\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack.png\",\"thumb-medium\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Medium.png\",\"thumb-small\":\"http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Small.png\"}]"
 					},
 					"recipeImg": {
 						"type": "string",
