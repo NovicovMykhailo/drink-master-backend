@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
+import { emailRegExp } from "../contentValues/regexps.js";
 import Joi from "joi";
 import handleMongooseError from "../helpers/handleMongoosError.js";
 
-const emailRegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 const userSchema = new Schema(
   {
@@ -32,16 +32,35 @@ userSchema.post("save", handleMongooseError);
 export const User = model("user", userSchema);
 
 export const registerSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().pattern(emailRegExp).required(),
-  password: Joi.string().min(6).required(),
+  name: Joi.string().required().messages({
+    'string.base': 'The name must be a string.',
+    'any.required': 'The name field is required.',
+    'string.empty': 'The name must not be empty.',
+  }),
+  email: Joi.string().pattern(emailRegExp).required().empty(false).messages({
+    'string.base': 'The email must be a string.',
+    'any.required': 'The email field is required.',
+    'string.empty': 'The email must not be empty.',
+    'string.pattern.base': 'The email must be in format test@gmail.com.',
+  }),
+  password: Joi.string().min(6).required().messages({
+    'string.base': 'The name must be a string.',
+    'any.required': 'The password field is required.',
+    'string.empty': 'The name must not be empty.',
+  }),
 });
 
 export const authSchema = Joi.object({
-  email: Joi.string().pattern(emailRegExp).required(),
-  password: Joi.string().min(6).required(),
+  email: Joi.string().pattern(emailRegExp).required().messages({
+    'string.base': 'The name must be a string.',
+    'any.required': 'The name field is required.',
+    'string.empty': 'The name must not be empty.',
+  }),
+  password: Joi.string().min(6).required().messages({
+    'string.base': 'The password must be a string.',
+    'any.required': 'The password field is required.',
+    'string.empty': 'The password must not be empty.',
+  }),
 });
 
-// export const subscriptionSchema = Joi.object({
-//   subscription: Joi.string().valid(...subscriptionList),
-// });
+
