@@ -1,12 +1,12 @@
 import { Schema, model } from "mongoose";
 import handleMongooseError from "../helpers/handleMongoosError.js";
 
-const IngredientSchema = new Schema(
-  {
-    title: String,
-    ingredientThumb: String,
-    "thumb-medium" : String,
-    "thumb-small": String,
+export const IngredientSchema = new Schema({
+  title: { type: String, required: [true, "Set ingredient title"] },
+  measure: { type: String, required: [true, "Set mesure"] },
+  ingredientThumb: { type: String, required: true },
+  "thumb-medium": { type: String, required: true },
+  "thumb-small": { type: String, required: true },
   },
   { versionKey: false },
 );

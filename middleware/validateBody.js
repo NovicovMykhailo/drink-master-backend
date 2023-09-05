@@ -10,7 +10,7 @@ const validateBody = schema => {
 
     const { error } = schema.validate(req.body);
     if (isBodyEmpty) {
-      throw HttpError(400, "missing fields");
+      throw HttpError(400, "[drink, category, glass,  instructions, ingredients, recipeImg] fields is required");
     }
 
     if (error) {

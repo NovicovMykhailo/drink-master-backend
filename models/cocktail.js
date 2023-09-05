@@ -3,14 +3,7 @@ import Joi from "joi";
 import handleMongooseError from "../helpers/handleMongoosError.js";
 import { categoryList } from "../contentValues/calegories.js";
 import { glassList } from "../contentValues/glasses.js";
-
-const ingredientSchema = new Schema({
-  title: { type: String, required: [true, "Set ingredient title"] },
-  measure: { type: String, required: [true, "Set mesure"] },
-  ingredientThumb: { type: String, required: true },
-  "thumb-medium": { type: String, required: true },
-  "thumb-small": { type: String, required: true },
-});
+import { IngredientSchema } from "./Ingredient.js";
 
 const CocktailSchema = new Schema(
   {
@@ -30,7 +23,7 @@ const CocktailSchema = new Schema(
     instructionsRU: { type: String, default: null },
     instructionsPL: { type: String, default: null },
     instructionsUK: { type: String, default: null },
-    ingredients: [ingredientSchema],
+    ingredients: [IngredientSchema],
     favs: { type: Array, default: [] },
     drinkThumb: { type: String, required: [true, "Photo is requiered"] },
     owner: { type: Schema.Types.ObjectId, ref: "user", required: true },
