@@ -16,7 +16,7 @@
 	},
 	"consumes": ["application/json", "multipart/form-data"],
 	"produces": ["application/json"],
-	"servers": [{ "url": "http://localhost:3000" }],
+	"servers": [{ "url": "https://drink-master-back-end.onrender.com/" }],
 	"tags": [
 		{
 			"name": "users",
@@ -547,9 +547,7 @@
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
+
 					"404": {
 						"description": "Not Found"
 					},
@@ -713,9 +711,7 @@
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
+
 					"404": {
 						"description": "Not Found"
 					},
@@ -796,9 +792,7 @@
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
+
 					"404": {
 						"description": "Cocktail not found"
 					},
@@ -846,9 +840,7 @@
 					"401": {
 						"description": "Unauthorized: Not authorized"
 					},
-					"403": {
-						"description": "Forbidden"
-					},
+
 					"404": {
 						"description": "Cocktail not found"
 					},
@@ -1378,7 +1370,7 @@
 							"application/json": {
 								"example": {
 									"error": "Bad Request",
-									"message": "Invalid request data"
+									"message": "ID is not a valid"
 								}
 							}
 						}
@@ -1922,6 +1914,9 @@
 								}
 							}
 						}
+					},
+					"favs": {
+						"type": "array"
 					}
 				}
 			},
