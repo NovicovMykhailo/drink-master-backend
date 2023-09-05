@@ -52,6 +52,9 @@ export const addCocktailSchema = Joi.object({
   }),
   ingredients: Joi.array().items(
 	Joi.object({
+    _id: Joi.string().required().messages({
+      "any.required": "The measure _id is required.",
+      }),
 	  title: Joi.string().required().messages({
 		"any.required": "The title field is required.",
 	  }),
