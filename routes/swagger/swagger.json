@@ -3,10 +3,12 @@
 	"info": {
 		"version": "1.0.0",
 		"title": "Drink Master",
-		"description": "Drink Master API",
+		"description": "[Drink Master API](https://pavtrap.github.io/drink-master-project)",
+		
 		"contact": {
 			"url": "https://github.com/NovicovMykhailo/drink-master-backend"
 		},
+		
 		"license": {
 			"name": "MIT",
 			"url": "https://opensource.org/licenses/MIT"
