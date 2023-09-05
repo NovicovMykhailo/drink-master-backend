@@ -50,12 +50,8 @@
 						"description": "Successful user registration",
 						"content": {
 							"application/json": {
-								"example": {
-									"user": {
-										"email": "user@example.com",
-										"name": "John Doe",
-										"avatarURL": "https://example.com/avatar.png"
-									}
+								"schema": {
+									"$ref": "#/components/schemas/RegistrationResponse"
 								}
 							}
 						}
@@ -362,7 +358,7 @@
 				}
 			}
 		},
-		"/api/popular-recipe": {
+		"/api/popular-recipes": {
 			"get": {
 				"summary": "Get a list of popular recipes",
 				"tags": ["api"],
@@ -416,7 +412,20 @@
 						"description": "Category filter",
 						"required": false,
 						"schema": {
-							"type": "string"
+							"type": "string",
+							"enum": [
+								"Ordinary Drink",
+								"Cocktail",
+								"Snake",
+								"Other/Unknow",
+								"Cocoa",
+								"Shot",
+								"Coffee/Tea",
+								"Homemade Liqueur",
+								"Punch / Party Drink",
+								"Beer",
+								"Soft Drink"
+							]
 						}
 					},
 					{
@@ -827,7 +836,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Cocktail"
+									"$ref": "#/components/schemas/CocktailByID"
 								}
 							}
 						}
@@ -1418,16 +1427,28 @@
 		"schemas": {
 			"RegistrationResponse": {
 				"type": "object",
-				"properties": {
-					"email": {
-						"type": "string",
-						"format": "email"
-					},
-					"name": {
-						"type": "string"
-					},
-					"avatarURL": {
-						"type": "string"
+				"items": {
+					"type": "object",
+					"properties": {
+						"email": {
+							"type": "email",
+							"description": "User's email",
+							"example": "mango@mail.com"
+						},
+						"name": {
+							"description": "User's name",
+							"example": "Mango",
+							"type": "string"
+						},
+						"avatarUrl": { "type": "string", "description": "avatar link" }
+					}
+				},
+				"example": {
+					"token": "15115551",
+					"user": {
+						"email": "ajax@mail.com",
+						"name": "ajax",
+						"avatarURL": "https://s.gravatar.com/avatar/"
 					}
 				}
 			},
@@ -1556,32 +1577,18 @@
 				"required": []
 			},
 			"updateResponse": {
-				"type": "array",
-				"items": {
-					"type": "object",
-					"properties": {
-						"id": {
-							"type": "string",
-							"description": "unique identifier",
-							"example": "65165165165"
-						},
-						"email": {
-							"type": "email",
-							"description": "User's email",
-							"example": "mango@mail.com"
-						},
-						"name": {
-							"description": "User's name",
-							"example": "Mango",
-							"type": "string"
-						},
-						"avatarUrl": { "type": "string", "description": "avatar link" }
-					}
+				"type": "object",
+				"properties": {
+					"name": {
+						"description": "User's name",
+						"example": "Mango",
+						"type": "string"
+					},
+					"avatarUrl": { "type": "string", "description": "avatar link" }
 				},
 				"example": {
-					"_id": "65165163513513",
 					"name": "ajax",
-					"email": "ajax@mail.com",
+
 					"avatarURL": "https://s.gravatar.com/avatar"
 				}
 			},
@@ -1815,6 +1822,111 @@
 					}
 				}
 			},
+			"CocktailByID": {
+				"type": "object",
+				"properties": {
+					"_id": {
+						"type": "string",
+						"example": "639b6de9ff77d221f190c5f0"
+					},
+					"drink": {
+						"type": "string",
+						"example": "Winter Rita"
+					},
+					"drinkAlternate": {
+						"type": "string",
+						"example": null
+					},
+					"tags": {
+						"type": "string",
+						"example": "Winter"
+					},
+					"video": {
+						"type": "string",
+						"example": null
+					},
+					"category": {
+						"type": "string",
+						"example": "Beer"
+					},
+					"IBA": {
+						"type": "string",
+						"example": null
+					},
+					"alcoholic": {
+						"type": "string",
+						"example": "Alcoholic"
+					},
+					"glass": {
+						"type": "string",
+						"example": "Highball Glass"
+					},
+					"instructions": {
+						"type": "string",
+						"example": "instruction text"
+					},
+					"instructionsES": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"instructionsDE": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"instructionsFR": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"instructionsIT": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"instructionsRU": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"instructionsPL": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"instructionsUK": {
+						"type": "string",
+						"example": "instruction text in that language"
+					},
+					"drinkThumb": {
+						"type": "string",
+						"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689167165/cocktails-v1/drinks/Winter_Rita.jpg"
+					},
+					"ingredients": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"title": {
+									"type": "string",
+									"example": "Tequila"
+								},
+								"measure": {
+									"type": "string",
+									"example": "1 2/3 oz"
+								},
+								"ingredientThumb": {
+									"type": "string",
+									"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169616/cocktails-v1/ingredient/Tequila.png"
+								},
+								"thumb-medium": {
+									"type": "string",
+									"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169616/cocktails-v1/ingredient/Tequila-Medium.png"
+								},
+								"thumb-small": {
+									"type": "string",
+									"example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169616/cocktails-v1/ingredient/Tequila-Small.png"
+								}
+							}
+						}
+					}
+				}
+			},
 			"addOwnRecipeRequest": {
 				"type": "object",
 				"properties": {
@@ -1835,7 +1947,8 @@
 						"type": "string"
 					},
 					"alcoholic": {
-						"type": "string"
+						"type": "string",
+						"enum": ["Alcoholic", "Not Alcoholic"]
 					},
 					"category": {
 						"type": "string",
