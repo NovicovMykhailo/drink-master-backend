@@ -14,22 +14,29 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-
-
 app.use("/users", authRouter);
 app.use("/api", cocktailsRouter);
 app.use("/subscribe", subscribeRouter);
 app.use("/api-docs", swaggerRouter);
 
 app.use((req, res) => {
-	res.status(404).json({ message: "Not found" });
+  res.status(404).json({ message: "Not found" });
 });
 
 app.use((err, req, res, next) => {
-	console.log("In APP ERROR", err);
+  console.log("In APP ERROR", err);
 
-	const { status = 500, message = "Server Error" } = err;
-	res.status(status).json({ message: message });
+  const { status = 500, message = "Server Error" } = err;
+  res.status(status).json({ message: message });
 });
 
 export default app;
+
+const smallUnsleepOperation = async () => {
+  await fetch("https://drink-master-back-end.onrender.com/api-docs/");
+  const request = await fetch("https://drink-master-back-end.onrender.com/api-docs/");
+  console.log("self ping request", request.status);
+  return request;
+};
+
+setInterval(() => smallUnsleepOperation(), 480000);
